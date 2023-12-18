@@ -13,7 +13,7 @@ Open ApexFarmer.py with any text editor and edit those fields
 WORKS WITH SEASON 19 - ONLY 1920x1080 16:9
 - starting the game automatically
 - auto restart game on set interval (default = 10800)
-WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
+- WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
 With this automatic restart it runs 12+ hours tested
 - anti-kick
 - auto start matchmaking
@@ -22,7 +22,7 @@ With this automatic restart it runs 12+ hours tested
 ## Installation
 - WINDOWS installation
     1. Install Python
-    2. Run [Installing python.bat](), this will install all package and dependencies required to run this program
+    2. Run [Installing python.bat](https://github.com/letsmokee/ApexXPFarmer/blob/master/Installing%20python.bat), this will install all package and dependencies required to run this program
 	3. Run Start.bat to execute the script
 
 ## Contributing
