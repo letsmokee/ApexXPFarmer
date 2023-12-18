@@ -31,7 +31,7 @@ def process_exists(process_name):
         return False
 
 if process_exists('r5apex.exe'):
-    mod = 3
+    mod = 2
     start_time = time.time()
 else: 
     mod = 1
@@ -44,15 +44,17 @@ while True:
     #starting game, make apex window active, starting counting for game restart
     if mod == 1:
         subprocess.call([apexdir])
-        time.sleep(60)
-        win = gw.getWindowsWithTitle('Apex')[0]
-        win.activate()
-        print ('----------Apex window active and game started------------')
-        mod = 2
+        time.sleep(10)
         start_time = time.time()
-        
+        mod = 2
+
     #checkking if game was opened and closing news or other in game windows
     while mod == 2:
+        print ('----------Checking if game is opened and getting into main menu-------------')
+        win = gw.getWindowsWithTitle('Apex Legends')[0]
+        win.activate()
+        end_time = time.time()
+        time_lapsed = end_time - start_time
         pyautogui.moveTo(200,100)
         if pyautogui.locateOnScreen('ss\\gameopen.png', grayscale=True, confidence=0.7) != None:
             pyautogui.click(956, 647)
@@ -60,29 +62,34 @@ while True:
             pyautogui.click(956, 647)     
             time.sleep(10)
 
-        if pyautogui.locateOnScreen('ss\\news.png', grayscale=True, confidence=0.6) != None:
+        elif pyautogui.locateOnScreen('ss\\news.png', grayscale=True, confidence=0.6) != None:
             #print("news")
             keyboard.press_and_release('esc')
+            
+        elif pyautogui.locateOnScreen('ss\\continue2.png', grayscale=True, confidence=0.6) != None:
+            #print("continue2")
+            keyboard.press_and_release('esc')
 
-        if pyautogui.locateOnScreen('ss\\space.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
+        elif pyautogui.locateOnScreen('ss\\space.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
 
-        if pyautogui.locateOnScreen('ss\\back.png', grayscale=True, confidence=0.6) != None:
+        elif pyautogui.locateOnScreen('ss\\back.png', grayscale=True, confidence=0.6) != None:
             #print("back")
             time.sleep(np.random.uniform(0.3,0.8))
             keyboard.press_and_release('esc')
 
-        if pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) != None:
+        elif pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) != None:
             win = gw.getWindowsWithTitle('Apex')[0]
        	    win.activate()
             pyautogui.moveTo(119,582)
             pyautogui.click(119, 582)
             time.sleep(2)
             pyautogui.moveTo(200,100)
-        if (pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None) and (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
+        elif (pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None) and (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
             time.sleep(1)
+            print ('----------Apex window active and game started------------')
             if pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None:
                 print('------------------------------------------------')            
                 print('---------------Fill not checked-----------------')
@@ -90,9 +97,6 @@ while True:
                 pyautogui.moveTo(200,100)
                 mod = 3
         #print ('WHILE mod = ', mod)
-        print ('----------Checking if game is opened and getting into main menu-------------')
-        end_time = time.time()
-        time_lapsed = end_time - start_time
     
     
     #program loop
@@ -158,6 +162,9 @@ while True:
             pyautogui.click(952, 717)
             time.sleep(np.random.uniform(0.4,0.7))
             pyautogui.click(952, 717)
+        elif pyautogui.locateOnScreen('ss\\continue2.png', grayscale=True, confidence=0.6) != None:
+            #print("continue2")
+            keyboard.press_and_release('esc')
     
         if pyautogui.locateOnScreen('ss\\space2.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space2.png")
