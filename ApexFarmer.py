@@ -12,7 +12,7 @@ import random
 import subprocess
 import os
 import numpy as np
-import pygetwindow as gw
+import win32gui
 
 #EDIT HERE----------------------------------
 timp = 10800 #after how many hours you want to restart game / 3600s = 1 hours
@@ -20,7 +20,7 @@ apexdir = 'C:\Program Files\EA Games\Apex\\r5apex.exe' #set your apex directory 
 #EDIT HERE----------------------------------
 
 Random = ['a','w','s','d','4','q','1','2','3','4'] #don't touch
-time.sleep(5)
+time.sleep(2)
 
 #checking if apex is running
 def process_exists(process_name):
@@ -51,47 +51,53 @@ while True:
     #checkking if game was opened and closing news or other in game windows
     while mod == 2:
         print ('----------Checking if game is opened and getting into main menu-------------')
-        win = gw.getWindowsWithTitle('Apex Legends')[0]
-        win.activate()
-        end_time = time.time()
-        time_lapsed = end_time - start_time
-        pyautogui.moveTo(200,100)
+        apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
+        if apex_hwnd != 0:
+            print(apex_hwnd)
+            win32gui.SetForegroundWindow(apex_hwnd)
+            win32gui.SetActiveWindow(apex_hwnd)
+            end_time = time.time()
+            time_lapsed = end_time - start_time
+            pyautogui.moveTo(200,100)
+            
         if pyautogui.locateOnScreen('ss\\InGame.png', region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
             print("-------------In game detected, moving to mode farming--------------")
             mod = 3
 
-        elif pyautogui.locateOnScreen('ss\\gameopen.png', grayscale=True, confidence=0.7) != None:
+        if pyautogui.locateOnScreen('ss\\gameopen.png', grayscale=True, confidence=0.7) != None:
             pyautogui.click(956, 647)
             time.sleep(np.random.uniform(0.3,0.8))
             pyautogui.click(956, 647)     
             time.sleep(10)
 
-        elif pyautogui.locateOnScreen('ss\\news.png', grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen('ss\\news.png', grayscale=True, confidence=0.6) != None:
             #print("news")
             keyboard.press_and_release('esc')
             
-        elif pyautogui.locateOnScreen('ss\\continue2.png', grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen('ss\\continue2.png', grayscale=True, confidence=0.6) != None:
             #print("continue2")
             keyboard.press_and_release('esc')
 
-        elif pyautogui.locateOnScreen('ss\\space.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen('ss\\space.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
 
-        elif pyautogui.locateOnScreen('ss\\back.png', grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen('ss\\back.png', grayscale=True, confidence=0.6) != None:
             #print("back")
             time.sleep(np.random.uniform(0.3,0.8))
             keyboard.press_and_release('esc')
 
-        elif pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) != None:
-            win = gw.getWindowsWithTitle('Apex')[0]
-       	    win.activate()
-            pyautogui.moveTo(119,582)
-            pyautogui.click(119, 582)
-            time.sleep(2)
-            pyautogui.moveTo(200,100)
-        elif (pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None) and (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
+        if pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) != None:
+            apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
+            if apex_hwnd != 0:
+                win32gui.SetForegroundWindow(apex_hwnd)
+                win32gui.SetActiveWindow(apex_hwnd)
+                pyautogui.moveTo(119,582)
+                pyautogui.click(119, 582)
+                time.sleep(2)
+                pyautogui.moveTo(200,100)
+        if (pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None) and (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
             time.sleep(1)
             print ('----------Apex window active and game started------------')
             if pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None:
