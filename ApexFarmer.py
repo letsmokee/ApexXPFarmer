@@ -1,3 +1,9 @@
+import msvcrt
+
+print("Press any key to continue...")
+msvcrt.getch()
+print("Continuing...")
+
 from pyautogui import *
 import pyautogui
 import time
@@ -14,7 +20,7 @@ apexdir = 'C:\Program Files\EA Games\Apex\\r5apex.exe' #set your apex directory 
 #EDIT HERE----------------------------------
 
 Random = ['a','w','s','d','4','q','1','2','3','4'] #don't touch
-time.sleep(2)
+time.sleep(5)
 
 #checking if apex is running
 def process_exists(process_name):
