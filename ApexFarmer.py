@@ -55,10 +55,11 @@ while True:
         win.activate()
         end_time = time.time()
         time_lapsed = end_time - start_time
+        pyautogui.moveTo(200,100)
         if pyautogui.locateOnScreen('ss\\InGame.png', region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
             print("-------------In game detected, moving to mode farming--------------")
             mod = 3
-        pyautogui.moveTo(200,100)
+
         elif pyautogui.locateOnScreen('ss\\gameopen.png', grayscale=True, confidence=0.7) != None:
             pyautogui.click(956, 647)
             time.sleep(np.random.uniform(0.3,0.8))
