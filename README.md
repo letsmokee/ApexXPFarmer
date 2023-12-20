@@ -20,7 +20,10 @@ With this automatic restart it runs 12+ hours tested
 - auto start matchmaking
 - getting out of news, battlepass windows etc.
 
-## Installation
+## STATS
+10+ levels / 24 hours (aprox 8000XP/hour)
+
+## INSTALLATION
 - WINDOWS installation
     1. Install Python
     2. Run [Installing python.bat](https://github.com/letsmokee/ApexXPFarmer/blob/master/Installing%20python.bat), this will install all package and dependencies required to run this program
