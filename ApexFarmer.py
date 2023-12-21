@@ -54,7 +54,9 @@ while True:
         apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
         if apex_hwnd != 0:
             print(apex_hwnd)
+            time.sleep(6)
             win32gui.SetForegroundWindow(apex_hwnd)
+            time.sleep(2)
             win32gui.SetActiveWindow(apex_hwnd)
             end_time = time.time()
             time_lapsed = end_time - start_time
