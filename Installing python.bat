@@ -13,5 +13,7 @@ pip install opencv-python
 
 pip install Pillow==9.3.0
 
+pip install pygetwindow
+
 ECHO Ok your all setup enjoy
 PAUSE

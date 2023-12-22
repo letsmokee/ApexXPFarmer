@@ -13,6 +13,9 @@ import subprocess
 import os
 import numpy as np
 import win32gui
+import win32com.client 
+import win32con
+import sys
 
 #EDIT HERE----------------------------------
 timp = 10800 #after how many hours you want to restart game / 3600s = 1 hours
@@ -21,6 +24,7 @@ apexdir = 'C:\Program Files\EA Games\Apex\\r5apex.exe' #set your apex directory 
 
 Random = ['a','w','s','d','4','q','1','2','3','4'] #don't touch
 time.sleep(2)
+window_found = 0
 
 #checking if apex is running
 def process_exists(process_name):
@@ -52,15 +56,17 @@ while True:
     while mod == 2:
         print ('----------Checking if game is opened and getting into main menu-------------')
         apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
-        if apex_hwnd != 0:
-            print(apex_hwnd)
-            time.sleep(6)
+        time.sleep(0.5)
+        if (apex_hwnd != 0) and (window_found == 0):
+            time.sleep(5)
+            pyautogui.press("alt")
             win32gui.SetForegroundWindow(apex_hwnd)
-            time.sleep(2)
             win32gui.SetActiveWindow(apex_hwnd)
+            win32gui.ShowWindow(apex_hwnd, win32con.SW_RESTORE)
             end_time = time.time()
             time_lapsed = end_time - start_time
             pyautogui.moveTo(200,100)
+            window_found = 1
             
         if pyautogui.locateOnScreen('ss\\InGame.png', region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
             print("-------------In game detected, moving to mode farming--------------")
@@ -70,7 +76,6 @@ while True:
             pyautogui.click(956, 647)
             time.sleep(np.random.uniform(0.3,0.8))
             pyautogui.click(956, 647)     
-            time.sleep(10)
 
         if pyautogui.locateOnScreen('ss\\news.png', grayscale=True, confidence=0.6) != None:
             #print("news")
@@ -93,10 +98,12 @@ while True:
         if pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) != None:
             apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
             if apex_hwnd != 0:
+                time.sleep(1)
+                pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
                 pyautogui.moveTo(119,582)
-                pyautogui.click(119, 582)
+                pyautogui.click(119,582)
                 time.sleep(2)
                 pyautogui.moveTo(200,100)
         if (pyautogui.locateOnScreen('ss\\team.png', confidence=0.9) is None) and (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
@@ -119,16 +126,17 @@ while True:
         time_lapsed = end_time - start_time
         
         #starting matchmaking
-        if (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), grayscale=True, confidence=0.7) != None) and (time_lapsed < timp-600):
-            time.sleep(0.5)
-            pyautogui.click(230, 950)
-            time.sleep(np.random.uniform(0.3,0.8))
-            pyautogui.click(230, 950)     
-            time.sleep(np.random.uniform(0.3,0.75))
-            pyautogui.click(230, 950)
-            time.sleep(np.random.uniform(0.5,1.1)) 
-        elif time_lapsed > timp-600:
+        if time_lapsed > timp-600:
             pyautogui.click(200, 100)
+        elif (pyautogui.locateOnScreen('ss\\notready.png', region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp-600):
+            pyautogui.moveTo(230,950)
+            pyautogui.click(230,950)
+            time.sleep(np.random.uniform(0.3,0.8))
+            pyautogui.moveTo(200,100)
+            time.sleep(0.1)
+
+        elif (pyautogui.locateOnScreen('ss\\matchmaking.png', region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp-600):
+            print ('----------MATCHMAKING STARTED------------')
         
         if pyautogui.locateOnScreen('ss\\space.png', region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space.png")
@@ -198,9 +206,27 @@ while True:
         if (time_lapsed > timp-600) and (ingame == 0):
             time.sleep (15)
             mod = 4
+        if process_exists('r5apex.exe'):
+            pass
+        else: 
+            print ('---------- APEX IS NOT RUNNING, WHAT DO YOU WANT TO DO? -------------')
+            print ('---------- STOP - TYPE 1 /// RESTART - TYPE 2 -------------')
+            while True:
+                data_input = int(input('PICK WHAT TO DO NEXT: '))
+                if data_input == 1:
+                    print ('---------- EXIT AFTER KEY PRESS -------------')
+                    sys.exit()
+                elif data_input == 2:
+                    print ('---------- PROGRAM RESTART -------------')
+                    mod = 1
+                    break
+                else:
+                    print ('You have made an invalid choice, try again.')
+            
+#checking if apex is running 
 
     if mod == 4:
         os.system('taskkill /f /im r5apex.exe')
         os.system('taskkill /f /im r5apex.exe')
-        time.sleep(30)
+        time.sleep(15)
         mod = 1
