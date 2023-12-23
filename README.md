@@ -10,7 +10,7 @@ This script automates certain actions in the game using Python libraries such as
 - starting the game automatically
 - auto restart game on set interval (default = 10800)
 - WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
-With this automatic restart it runs 12+ hours tested
+- With this automatic restart it runs 12+ hours tested
 - anti-kick
 - auto start matchmaking
 - getting out of news, battlepass windows etc.
@@ -38,7 +38,7 @@ With this automatic restart it runs 12+ hours tested
    NOTE: To test, open cmd and type tesseract, if command is not found, repeat steps
 
 **Apex Farmer**
-To setup, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
+- To setup, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
 
 ## Installation
 - WINDOWS installation
@@ -48,7 +48,7 @@ To setup, on first run it will generate a config.ini file which you need to edit
  
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where script is, type 'Python ApexFarmer.py' and run the script as normal. When the error will occur, cmd window will not close itself
-Open an issue with the error code.
+- Open an issue with the error code.
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug fixes, or new features to add, feel free to open an issue or submit a pull request.
