@@ -22,9 +22,9 @@ With this automatic restart it runs 12+ hours tested
 
 ## Installation
 - WINDOWS installation
-    1. Install Python
-    2. Run [Installing python.bat](https://github.com/letsmokee/ApexXPFarmer/blob/master/Installing%20python.bat), this will install all package and dependencies required to run this program
-	3. Run Start.bat to execute the script
+    1. Download executable from release
+    2. Run the executable, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
+    3. Follow the on screen instructions
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug fixes, or new features to add, feel free to open an issue or submit a pull request.
