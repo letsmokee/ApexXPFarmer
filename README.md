@@ -38,14 +38,17 @@ With this automatic restart it runs 12+ hours tested
    NOTE: To test, open cmd and type tesseract, if command is not found, repeat steps
 
 **Apex Farmer**
-To setup, edit these lines with your desired automatic time for restart and apex directory
-Open ApexFarmer.py with any text editor and edit those fields
-![EDIT THESE LINES WITH YOUR DESIRED AUTOMATIC TIME FOR RESTART AND APEX DIRECTORY](setup.png)
+To setup, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
+
 ## Installation
 - WINDOWS installation
     1. Download executable from release
     2. Run the executable, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
     3. Follow the on screen instructions
+ 
+## PROBLEMS ENCOUNTERED
+If you encounter any problem, open a cmd window where script is, type 'Python ApexFarmer.py' and run the script as normal. When the error will occur, cmd window will not close itself
+Open an issue with the error code.
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug fixes, or new features to add, feel free to open an issue or submit a pull request.
