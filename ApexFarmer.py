@@ -232,12 +232,10 @@ while True:
             time.sleep(np.random.uniform(0.4,0.7))
             while True:
                 if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
-                    image = pyautogui.screenshot(region=(649,545,520,108))
+                    image = pyautogui.screenshot(region=(795,551,222,51))
                     imagenp = np.array(image)
                     gray = cv2.cvtColor(imagenp, cv2.COLOR_BGR2GRAY)
-                    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-                    exp_new = int(pytesseract.image_to_string(thresh, lang='eng', config='--psm 12').replace(',','').replace('\n',''))
-                   # exp_new = int(pytesseract.image_to_string(pyautogui.screenshot(region=(649,545,520,108))).replace(',','').replace('\n',''))
+                    exp_new = int(pytesseract.image_to_string(gray, lang='eng', config='--psm 12 --oem 3 -c tessedit_char_whitelist=0123456789'))
                     exp=exp+exp_new
                     time.sleep(np.random.uniform(0.4,0.7))
                     keyboard.press_and_release('space')
