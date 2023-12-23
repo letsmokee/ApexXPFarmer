@@ -1,17 +1,12 @@
 # Apex AFK Farm Bot
 
-Based on [apexAFKfarmbot](https://github.com/iIndrasura/apexAFKfarmbot)
+Based on [apexAFKfarmbot](https://github.com/iIndrasura/apexAFKfarmbot) for inspiration
 
 The Apex AFK Farm Bot is a powerful automation tool designed to assist Apex Legends players in farming in-game rewards while being AFK (Away From Keyboard). This repository provides the source code and instructions for using the bot effectively.
 This script automates certain actions in the game using Python libraries such as pyautogui, keyboard, and PyScreeze. It simulates human behavior by interacting with the game interface based on screen recognition.
 
-## SETTING UP
-To setup, edit these lines with your desired automatic time for restart and apex directory
-Open ApexFarmer.py with any text editor and edit those fields
-![EDIT THESE LINES WITH YOUR DESIRED AUTOMATIC TIME FOR RESTART AND APEX DIRECTORY](setup.png)
-
 ## FEATURES
-WORKS WITH SEASON 19 - ONLY 1920x1080 16:9
+**WORKS WITH SEASON 19 - ONLY 1920x1080 16:9**
 - starting the game automatically
 - auto restart game on set interval (default = 10800)
 - WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
@@ -19,7 +14,33 @@ With this automatic restart it runs 12+ hours tested
 - anti-kick
 - auto start matchmaking
 - getting out of news, battlepass windows etc.
+- remembering how much XP you got in a session
+- remembering how much time you farmed in a session
 
+##PREREQUISITES
+- PYTHON (if you want to use directly the source code)
+- WINDOWS 64 BIT (if you use the executable)
+- Tesseract open source from Google to OCR the EXP earned in game. Please see following: [Tesseract](https://github.com/tesseract-ocr/tesseract), [Tesseract Installation](https://tesseract-ocr.github.io/tessdoc/Installation.html) and [Tesseract Download for Windows](https://github.com/UB-Mannheim/tesseract/wiki)
+- Set PATH for Tesseract to work (see below instructions)
+
+## SETTING UP
+**Tesseract:**
+1. download Tesseract from the upper link
+2. in the installation process, copy the directory of install (default: C:\Program Files\Tesseract-OCR)
+3. install it
+4. after installation, search in windows box 'enviroments' and click on 'Edit the system enviroment variables' (may be different on Windows 10, 8.1 etc.)
+5. with the open window, click on Path, either from user variables (if you are only planning on using the bot on current Windows User) or system variables (if you plan to use it system wide)
+![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/195fa293-71a9-4a3f-a60a-1728bf2cb122)
+6. click on edit -> New and insert Tesseract directory of install
+![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/7fb99b53-81cb-4b75-a046-f53e7eee7fb3)
+7. Save and exit
+
+   NOTE: To test, open cmd and type tesseract, if command is not found, repeat steps
+
+**Apex Farmer**
+To setup, edit these lines with your desired automatic time for restart and apex directory
+Open ApexFarmer.py with any text editor and edit those fields
+![EDIT THESE LINES WITH YOUR DESIRED AUTOMATIC TIME FOR RESTART AND APEX DIRECTORY](setup.png)
 ## Installation
 - WINDOWS installation
     1. Download executable from release
