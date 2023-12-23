@@ -12,6 +12,8 @@ import win32com.client
 import win32con
 import sys
 import msvcrt
+import datetime
+import pytesseract
 
 # instantiate
 config = configparser.ConfigParser()
@@ -60,6 +62,8 @@ def resource_path(relative_path):
 Random = ['a','w','s','d','4','q','1','2','3','4'] #don't touch
 time.sleep(2)
 window_found = 0
+exp=0
+exp_new=0
 
 #checking if apex is running
 def process_exists(process_name):
@@ -69,9 +73,12 @@ def process_exists(process_name):
     else:
         return False
 
+start_time_absolute = time.time()
+
 if process_exists('r5apex.exe'):
     mod = 2
     start_time = time.time()
+
 else: 
     mod = 1
 #checking if apex is running    
@@ -117,12 +124,12 @@ while True:
             #print("news")
             keyboard.press_and_release('esc')
             
-        if pyautogui.locateOnScreen(resource_path('ss\\continue2.png'), grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), grayscale=True, confidence=0.6) != None:
             #print("continue2")
             keyboard.press_and_release('esc')
 
-        if pyautogui.locateOnScreen(resource_path('ss\\space.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space.png")
+        if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
+            #print("space2.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
 
@@ -160,6 +167,8 @@ while True:
         #updating time lapsed since start of farming on new instance
         end_time = time.time()
         time_lapsed = end_time - start_time
+        end_time_absolute = time.time()
+        time_lapsed_absolute = end_time_absolute - start_time_absolute
         
         #starting matchmaking
         if time_lapsed > timp-600:
@@ -176,13 +185,13 @@ while True:
         else:
             pass
         
-        if pyautogui.locateOnScreen(resource_path('ss\\space.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space.png")
+        if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
+            #print("space2.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
         
         if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
-            print("-------------In game waiting--------------")
+            #print("-------------In game waiting--------------")
             keyboard.press_and_release(Random)
             time.sleep(0.5)
             ingame = 1
@@ -196,50 +205,46 @@ while True:
             #print("dead")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(1,2))
-                
+               
         if pyautogui.locateOnScreen(resource_path('ss\\news.png'), grayscale=True, confidence=0.6) != None:
             #print("news")
             keyboard.press_and_release('esc')
         
         if pyautogui.locateOnScreen(resource_path('ss\\close.png'), grayscale=True, confidence=0.6) != None:
             #print("close")
-            keyboard.press_and_release('esc')        
+            keyboard.press_and_release('esc')
+
+
         
-     
         if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
             pyautogui.click(850, 713)
             time.sleep(np.random.uniform(0.4,0.8))
             pyautogui.click(850, 713)
         
-        if pyautogui.locateOnScreen(resource_path('ss\\space.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space.png")
-            keyboard.press_and_release('space')
-            time.sleep(np.random.uniform(0.4,0.8))
-         
-        if pyautogui.locateOnScreen(resource_path('ss\\continue.png'), region=(773,581,379,304), grayscale=True, confidence=0.6) != None:
-            pyautogui.click(952, 717)
-            time.sleep(np.random.uniform(0.4,0.7))
-            pyautogui.click(952, 717)
-        elif pyautogui.locateOnScreen(resource_path('ss\\continue2.png'), grayscale=True, confidence=0.6) != None:
-            #print("continue2")
-            keyboard.press_and_release('esc')
-    
-        if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
+    #    if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space2.png")
+     #       keyboard.press_and_release('space')
+     #       time.sleep(np.random.uniform(0.4,0.8))
+         
+        if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
             keyboard.press_and_release('space')
-            time.sleep(np.random.uniform(0.4,0.8))
-    
-        if pyautogui.locateOnScreen(resource_path('ss\\startmenu.png'), region=(773,581,379,304), grayscale=True, confidence=0.6) != None:
-            pyautogui.click(952, 717)
-            time.sleep(np.random.uniform(0.4,0.8))
-            pyautogui.click(952, 717)
+            time.sleep(np.random.uniform(0.4,0.7))
+            while True:
+                if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
+                    exp_new = int(pytesseract.image_to_string(pyautogui.screenshot(region=(753,545,257,70))).replace(',',''))
+                 #   int(exp_new.replace(',',''))
+                    exp=exp+exp_new
+                    time.sleep(np.random.uniform(0.4,0.7))
+                    keyboard.press_and_release('space')
+                    time.sleep(np.random.uniform(0.4,0.7))
+                    break
     
         if pyautogui.locateOnScreen(resource_path('ss\\startmenu.png'), region=(773,581,379,304), grayscale=True, confidence=0.6) != None:
             pyautogui.click(952, 717)
             time.sleep(np.random.uniform(0.3,0.7))
             pyautogui.click(952, 717)
-        print ('----------Currently farming-------------')
-        print ('---- time lapsed: ',round(time_lapsed),' seconds','-----','ingame:' ,ingame)
+        print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP: ', exp, 'New EXP: ',exp_new,'--------------')
+        print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
         #checking if time lapsed is more than set time and checking if it's in game
         if (time_lapsed > timp-600) and (ingame == 0):
             time.sleep (15)
@@ -252,11 +257,13 @@ while True:
             while True:
                 data_input = int(input('PICK WHAT TO DO NEXT: '))
                 if data_input == 1:
-                    print ('---------- EXIT AFTER KEY PRESS -------------')
-                    sys.exit()
+                    print ('---------- SESSION STATS -------------')
+                    print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP EARNED: ', exp,'--------------')
                 elif data_input == 2:
                     print ('---------- PROGRAM RESTART -------------')
                     mod = 1
+                    exp=0
+                    exp_new=0
                     break
                 else:
                     print ('You have made an invalid choice, try again.')
