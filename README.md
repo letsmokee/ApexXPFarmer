@@ -25,13 +25,13 @@ With this automatic restart it runs 12+ hours tested
 
 ## SETTING UP
 **Tesseract:**
-1. download Tesseract from the upper link
-2. in the installation process, copy the directory of install (default: C:\Program Files\Tesseract-OCR)
-3. install it
-4. after installation, search in windows box 'enviroments' and click on 'Edit the system enviroment variables' (may be different on Windows 10, 8.1 etc.)
-5. with the open window, click on Path, either from user variables (if you are only planning on using the bot on current Windows User) or system variables (if you plan to use it system wide)
+1. Download Tesseract from the upper link
+2. In the installation process, copy the directory of install (default: C:\Program Files\Tesseract-OCR)
+3. Install it
+4. After installation, search in windows box 'enviroments' and click on 'Edit the system enviroment variables' (may be different on Windows 10, 8.1 etc.)
+5. With the open window, click on Path, either from user variables (if you are only planning on using the bot on current Windows User) or system variables (if you plan to use it system wide)
 ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/195fa293-71a9-4a3f-a60a-1728bf2cb122)
-6. click on edit -> New and insert Tesseract directory of install
+6. Click on edit -> New and insert Tesseract directory of install
 ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/7fb99b53-81cb-4b75-a046-f53e7eee7fb3)
 7. Save and exit
 
