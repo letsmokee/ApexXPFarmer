@@ -20,7 +20,9 @@ import cv2
 config = configparser.ConfigParser()
 if os.path.isfile('config.ini') is not True:
     config['CONFIG'] = {'Time': '9000',
-                     'ApexDir': r'C:\Program Files\EA Games\Apex\\r5apex.exe'}
+                     'ApexDir': r'C:\Program Files\EA Games\Apex\\r5apex.exe',
+                     'OCR_debug': '0'}
+
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
 elif os.path.isfile('config.ini') is True:
@@ -30,6 +32,7 @@ elif os.path.isfile('config.ini') is True:
 # read values from a section
 timp = int(config.get('CONFIG', 'Time'))
 apexdir = str(config.get('CONFIG', 'ApexDir'))
+OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 
 print(r"           _____  ________   __   ______      _____  __  __ ______ _____   ")
 print(r"     /\   |  __ \|  ____\ \ / /  |  ____/\   |  __ \|  \/  |  ____|  __ \  ")
@@ -46,6 +49,7 @@ print(r" |____/  |_|     |______|______|  |_| |_____/|_|  |_|\____/|_|\_\______|
 print("")
 print("CONFIG: -> Time to restart: >>> ", timp, "sec <<<")
 print("CONFIG: -> Apex Directory: >>>", apexdir, " <<<")
+print("CONFIG: -> DEBUG MODE: >>>", OCR_debug, " <<<")
 print("Press any key to continue if settings are correct")
 msvcrt.getch()
 print("Continuing...")
@@ -65,6 +69,7 @@ time.sleep(2)
 window_found = 0
 exp=0
 exp_new=0
+n = 1
 
 #checking if apex is running
 def process_exists(process_name):
@@ -232,11 +237,19 @@ while True:
             time.sleep(np.random.uniform(0.4,0.7))
             while True:
                 if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
-                    image = pyautogui.screenshot(region=(795,551,222,51))
+                    image = pyautogui.screenshot(region=(743,545,267,72))
                     imagenp = np.array(image)
                     gray = cv2.cvtColor(imagenp, cv2.COLOR_BGR2GRAY)
                     exp_new = int(pytesseract.image_to_string(gray, lang='eng', config='--psm 12 --oem 3 -c tessedit_char_whitelist=0123456789'))
                     exp=exp+exp_new
+                    if OCR_debug == 1:
+                        pyautogui.screenshot("saved_without"+str(n)+".png")
+                        pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
+                        pyautogui.screenshot("ocrscan_"+str(n)+".png",region=(743,545,267,72))
+                        file = open("data.txt", "a")
+                        file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp\n")
+                        file.close()
+                        n=n+1
                     time.sleep(np.random.uniform(0.4,0.7))
                     keyboard.press_and_release('space')
                     time.sleep(np.random.uniform(0.4,0.7))
