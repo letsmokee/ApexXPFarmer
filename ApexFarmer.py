@@ -21,7 +21,8 @@ config = configparser.ConfigParser()
 if os.path.isfile('config.ini') is not True:
     config['CONFIG'] = {'Time': '9000',
                      'ApexDir': r'C:\Program Files\EA Games\Apex\\r5apex.exe',
-                     'OCR_debug': '0'}
+                     'OCR_debug': '0',
+                     'show_exp': '1'}
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
@@ -33,23 +34,27 @@ elif os.path.isfile('config.ini') is True:
 timp = int(config.get('CONFIG', 'Time'))
 apexdir = str(config.get('CONFIG', 'ApexDir'))
 OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
+show_exp = int(config.get('CONFIG', 'show_exp'))
 
 print(r"           _____  ________   __   ______      _____  __  __ ______ _____   ")
 print(r"     /\   |  __ \|  ____\ \ / /  |  ____/\   |  __ \|  \/  |  ____|  __ \  ")
 print(r"    /  \  | |__) | |__   \ V /   | |__ /  \  | |__) | \  / | |__  | |__) | ")
 print(r"   / /\ \ |  ___/|  __|   > <    |  __/ /\ \ |  _  /| |\/| |  __| |  _  /  ")
 print(r"  / ____ \| |    | |____ / . \   | | / ____ \| | \ \| |  | | |____| | \ \  ")
-print(r" /_/____\_\_|__  |______/_/_\_\ _|_|/_/ ___\_\_|  \_\_|__|_|______|_|__\_\ ")
+print(r" /_/____\_\_|__  |______/_/_\_\  |_|/_/ ___\_\_|  \_\_|__|_|______|_|__\_\ ")
 print(r"  ____ _     _    _      ______ ________ ____ __  __  ____  _  __ _____    ")
 print(r" |  _ \ \   / /  | |    |  ____|__   __/ ____|  \/  |/ __ \| |/ /  ____|   ")
 print(r" | |_) \ \_/ /   | |    | |__     | | | (___ | \  / | |  | | ' /| |__      ")
 print(r" |  _ < \   /    | |    |  __|    | |  \___ \| |\/| | |  | |  < |  __|     ")
 print(r" | |_) | | |     | |____| |____   | |  ____) | |  | | |__| | . \| |____    ")
 print(r" |____/  |_|     |______|______|  |_| |_____/|_|  |_|\____/|_|\_\______|   ")
-print("")
-print("CONFIG: -> Time to restart: >>> ", timp, "sec <<<")
-print("CONFIG: -> Apex Directory: >>>", apexdir, " <<<")
-print("CONFIG: -> DEBUG MODE: >>>", OCR_debug, " <<<")
+print("") 
+print("            ___________________                      ")
+print("CONFIG: -> | Time for restart: | >>>", timp, "sec")
+print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
+print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
+print("CONFIG: -> |    DEBUG MODE:    | >>>", OCR_debug)
+print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                      ")
 print("Press any key to continue if settings are correct")
 msvcrt.getch()
 print("Continuing...")
@@ -64,11 +69,13 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-Random = ['a','w','s','d','4','q','1','2','3','4'] #don't touch
+Random = ['4','q','1','2','3','4'] #don't touch
 time.sleep(2)
 window_found = 0
 exp=0
 exp_new=0
+exp_new1=0
+exp_new2=0
 n = 1
 
 #checking if apex is running
@@ -192,7 +199,7 @@ while True:
             pass
         
         if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            print("space2.png")
+            #print("space2.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
         
@@ -207,7 +214,7 @@ while True:
                 time.sleep(np.random.uniform(0.6, 1.5)) 
         else: ingame = 0
     
-        if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) != None:
+        if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) or pyautogui.locateOnScreen(resource_path('ss\\2ndplace.png'), region=(441,19,1017,304), confidence=0.6) != None:
             #print("dead")
             time.sleep(np.random.uniform(1,2))
             keyboard.press_and_release('space')
@@ -221,32 +228,45 @@ while True:
                 if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
                     #print('matchsummary')
                     keyboard.press_and_release('space')
-                    time.sleep(np.random.uniform(0.4,0.7))
-                    while True:
-                        if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
-                            #print('exp screen')
-                            time.sleep(5)
-                            image = pyautogui.screenshot(region=(651,446,496,207))
-                            if OCR_debug == 1:
-                                pyautogui.screenshot("saved_without"+str(n)+".png")
-                                pyautogui.screenshot("ocrscan_"+str(n)+".png",region=(743,545,267,72))
-                            imagenp = np.array(image)
-                            imagefinal = cv2.cvtColor(src=imagenp, code=cv2.COLOR_RGB2BGR)
-                            imagefinal = cv2.cvtColor(src=imagenp, code=cv2.COLOR_BGR2GRAY)
-                            exp_new = int(pytesseract.image_to_string(imagefinal, lang='eng', config='--psm 12 --oem 3 -c tessedit_char_whitelist=0123456789'))
-                            exp=exp+exp_new
-                            if OCR_debug == 1:
-                                pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
-                                file = open("data.txt", "a")
-                                file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp\n")
-                                file.close()
-                                n=n+1
-                            time.sleep(np.random.uniform(0.4,0.8))
-                            #print('space dupa expscreen')
-                            keyboard.press_and_release('space')
-                            time.sleep(np.random.uniform(0.4,0.7))
-                            break
-                    break
+                    time.sleep(2)
+                    if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) is None:
+                        while True:
+                            if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
+                                #print('exp screen')
+                                time.sleep(6)
+                                if show_exp==1:
+                                    image1=pyautogui.screenshot(region=(445,231,80,37))
+                                    imagenp1 = np.array(image1)
+                                    gray1 = cv2.cvtColor(imagenp1, cv2.COLOR_BGR2GRAY)
+                                    invert1 = 255 - gray1
+                                    
+                                    image2=pyautogui.screenshot(region=(439,272,84,34))
+                                    imagenp2 = np.array(image2)
+                                    gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
+                                    invert2 = 255 - gray2
+                                    if OCR_debug == 1:
+                                        pyautogui.screenshot("saved_without"+str(n)+".png")
+                                        #pyautogui.screenshot("ocrscan1_"+str(n)+".png",region=(445,231,80,37))
+                                        #pyautogui.screenshot("ocrscan2_"+str(n)+".png",region=(439,272,84,34))
+                                    exp_new1 = int(pytesseract.image_to_string(invert1,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789'))
+                                    try:
+                                        exp_new2 = int(pytesseract.image_to_string(invert2,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789'))
+                                    except ValueError:
+                                        pass
+                                    exp_new=exp_new1+exp_new2
+                                    exp=exp+exp_new
+                                    if OCR_debug == 1:
+                                        pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
+                                        file = open("data.txt", "a")
+                                        file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp" + '--- exp_new=' +str(exp_new1) + " exp" + '--- exp_new=' +str(exp_new2) + " exp\n")
+                                        file.close()
+                                        n=n+1
+                                time.sleep(np.random.uniform(0.4,0.8))
+                                #print('space dupa expscreen')
+                                keyboard.press_and_release('space')
+                                time.sleep(np.random.uniform(0.4,0.7))
+                                break
+                        break
                 
         if pyautogui.locateOnScreen(resource_path('ss\\news.png'), grayscale=True, confidence=0.6) != None:
             #print("news")
@@ -255,26 +275,18 @@ while True:
         if pyautogui.locateOnScreen(resource_path('ss\\close.png'), grayscale=True, confidence=0.6) != None:
             #print("close")
             keyboard.press_and_release('esc')
-
-
-        
-       # if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
-       #     pyautogui.click(850, 713)
-       #     time.sleep(np.random.uniform(0.4,0.8))
-       #     pyautogui.click(850, 713)
-        
-    #    if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space2.png")
-     #       keyboard.press_and_release('space')
-     #       time.sleep(np.random.uniform(0.4,0.8))
-         
         
         if pyautogui.locateOnScreen(resource_path('ss\\startmenu.png'), region=(773,581,379,304), grayscale=True, confidence=0.6) != None:
             pyautogui.click(952, 717)
             time.sleep(np.random.uniform(0.3,0.7))
             pyautogui.click(952, 717)
-        print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP: ', exp, 'New EXP: ',exp_new,'--------------')
-        print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
+        if show_exp==1:
+            print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP:', exp, 'New EXP:',exp_new,'--------------')
+            print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
+        else:
+            print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'--------------')
+            print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
+        
         #checking if time lapsed is more than set time and checking if it's in game
         if (time_lapsed > timp-600) and (ingame == 0):
             time.sleep (15)
@@ -288,12 +300,23 @@ while True:
                 data_input = int(input('PICK WHAT TO DO NEXT: '))
                 if data_input == 1:
                     print ('---------- SESSION STATS -------------')
-                    print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP EARNED: ', exp,'--------------')
+                    if show_exp==1:
+                        print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),' | TOTAL EXP EARNED:', exp,'--------------')
+                        print ('---------- EXIT IN 5 SEC --------------')
+                        time.sleep(5)
+                        exit()
+                    else:
+                        print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'--------------')
+                        print ('---------- EXIT IN 5 SEC --------------')
+                        time.sleep(5)
+                        exit()
                 elif data_input == 2:
                     print ('---------- PROGRAM RESTART -------------')
                     mod = 1
                     exp=0
                     exp_new=0
+                    exp_new1=0
+                    exp_new2=0
                     break
                 else:
                     print ('You have made an invalid choice, try again.')
