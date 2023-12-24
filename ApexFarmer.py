@@ -252,6 +252,7 @@ while True:
                                     try:
                                         exp_new2 = int(pytesseract.image_to_string(invert2,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789'))
                                     except ValueError:
+                                        exp_new2 = 0
                                         pass
                                     exp_new=exp_new1+exp_new2
                                     exp=exp+exp_new
