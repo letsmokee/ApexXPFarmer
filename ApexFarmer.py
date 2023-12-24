@@ -192,7 +192,7 @@ while True:
             pass
         
         if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space2.png")
+            print("space2.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
         
@@ -209,9 +209,45 @@ while True:
     
         if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) != None:
             #print("dead")
+            time.sleep(np.random.uniform(1,2))
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(1,2))
-               
+            while True:
+                if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
+                    #print('yes')
+                    pyautogui.click(850, 713)
+                    time.sleep(np.random.uniform(0.4,0.8))
+                    pyautogui.click(850, 713)
+                if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
+                    #print('matchsummary')
+                    keyboard.press_and_release('space')
+                    time.sleep(np.random.uniform(0.4,0.7))
+                    while True:
+                        if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
+                            #print('exp screen')
+                            time.sleep(5)
+                            image = pyautogui.screenshot(region=(651,446,496,207))
+                            if OCR_debug == 1:
+                                pyautogui.screenshot("saved_without"+str(n)+".png")
+                                pyautogui.screenshot("ocrscan_"+str(n)+".png",region=(743,545,267,72))
+                            imagenp = np.array(image)
+                            imagefinal = cv2.cvtColor(src=imagenp, code=cv2.COLOR_RGB2BGR)
+                            imagefinal = cv2.cvtColor(src=imagenp, code=cv2.COLOR_BGR2GRAY)
+                            exp_new = int(pytesseract.image_to_string(imagefinal, lang='eng', config='--psm 12 --oem 3 -c tessedit_char_whitelist=0123456789'))
+                            exp=exp+exp_new
+                            if OCR_debug == 1:
+                                pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
+                                file = open("data.txt", "a")
+                                file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp\n")
+                                file.close()
+                                n=n+1
+                            time.sleep(np.random.uniform(0.4,0.8))
+                            #print('space dupa expscreen')
+                            keyboard.press_and_release('space')
+                            time.sleep(np.random.uniform(0.4,0.7))
+                            break
+                    break
+                
         if pyautogui.locateOnScreen(resource_path('ss\\news.png'), grayscale=True, confidence=0.6) != None:
             #print("news")
             keyboard.press_and_release('esc')
@@ -222,39 +258,17 @@ while True:
 
 
         
-        if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
-            pyautogui.click(850, 713)
-            time.sleep(np.random.uniform(0.4,0.8))
-            pyautogui.click(850, 713)
+       # if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
+       #     pyautogui.click(850, 713)
+       #     time.sleep(np.random.uniform(0.4,0.8))
+       #     pyautogui.click(850, 713)
         
     #    if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
             #print("space2.png")
      #       keyboard.press_and_release('space')
      #       time.sleep(np.random.uniform(0.4,0.8))
          
-        if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
-            keyboard.press_and_release('space')
-            time.sleep(np.random.uniform(0.4,0.7))
-            while True:
-                if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
-                    image = pyautogui.screenshot(region=(743,545,267,72))
-                    imagenp = np.array(image)
-                    gray = cv2.cvtColor(imagenp, cv2.COLOR_BGR2GRAY)
-                    exp_new = int(pytesseract.image_to_string(gray, lang='eng', config='--psm 12 --oem 3 -c tessedit_char_whitelist=0123456789'))
-                    exp=exp+exp_new
-                    if OCR_debug == 1:
-                        pyautogui.screenshot("saved_without"+str(n)+".png")
-                        pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
-                        pyautogui.screenshot("ocrscan_"+str(n)+".png",region=(743,545,267,72))
-                        file = open("data.txt", "a")
-                        file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp\n")
-                        file.close()
-                        n=n+1
-                    time.sleep(np.random.uniform(0.4,0.7))
-                    keyboard.press_and_release('space')
-                    time.sleep(np.random.uniform(0.4,0.7))
-                    break
-    
+        
         if pyautogui.locateOnScreen(resource_path('ss\\startmenu.png'), region=(773,581,379,304), grayscale=True, confidence=0.6) != None:
             pyautogui.click(952, 717)
             time.sleep(np.random.uniform(0.3,0.7))
