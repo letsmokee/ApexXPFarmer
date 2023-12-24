@@ -45,7 +45,10 @@ This script automates certain actions in the game using Python libraries such as
     1. Download executable from release
     2. Run the executable, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
     3. Follow the on screen instructions
- 
+       
+##CONFIG.INI
+ ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/4b3cb9ff-20bc-4543-bf8a-9b8423c1f53d)
+
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where script is, type 'Python ApexFarmer.py' and run the script as normal. When the error will occur, cmd window will not close itself
 - Open an issue with the error code.
