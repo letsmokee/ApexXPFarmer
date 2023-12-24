@@ -8,7 +8,7 @@ This script automates certain actions in the game using Python libraries such as
 ## FEATURES
 **WORKS WITH SEASON 19 - ONLY 1920x1080 16:9**
 - starting the game automatically
-- auto restart game on set interval (default = 10800)
+- auto restart game on set interval (default = 9000)
 - WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
 - With this automatic restart it runs 12+ hours tested
 - anti-kick
@@ -17,7 +17,7 @@ This script automates certain actions in the game using Python libraries such as
 - remembering how much XP you got in a session
 - remembering how much time you farmed in a session
 
-##PREREQUISITES
+## PREREQUISITES
 - PYTHON (if you want to use directly the source code)
 - WINDOWS 64 BIT (if you use the executable)
 - Tesseract open source from Google to OCR the EXP earned in game. Please see following: [Tesseract](https://github.com/tesseract-ocr/tesseract), [Tesseract Installation](https://tesseract-ocr.github.io/tessdoc/Installation.html) and [Tesseract Download for Windows](https://github.com/UB-Mannheim/tesseract/wiki)
@@ -46,7 +46,7 @@ This script automates certain actions in the game using Python libraries such as
     2. Run the executable, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
     3. Follow the on screen instructions
        
-##CONFIG.INI
+## CONFIG.INI
  ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/4b3cb9ff-20bc-4543-bf8a-9b8423c1f53d)
 
 ## PROBLEMS ENCOUNTERED
