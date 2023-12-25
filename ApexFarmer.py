@@ -235,12 +235,12 @@ while True:
                                 #print('exp screen')
                                 time.sleep(6)
                                 if show_exp==1:
-                                    image1=pyautogui.screenshot(region=(445,231,80,37))
+                                    image1=pyautogui.screenshot(region=(457,231,61,38))
                                     imagenp1 = np.array(image1)
                                     gray1 = cv2.cvtColor(imagenp1, cv2.COLOR_BGR2GRAY)
                                     invert1 = 255 - gray1
                                     
-                                    image2=pyautogui.screenshot(region=(439,272,84,34))
+                                    image2=pyautogui.screenshot(region=(457,271,61,38))
                                     imagenp2 = np.array(image2)
                                     gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
                                     invert2 = 255 - gray2
@@ -248,12 +248,23 @@ while True:
                                         pyautogui.screenshot("saved_without"+str(n)+".png")
                                         #pyautogui.screenshot("ocrscan1_"+str(n)+".png",region=(445,231,80,37))
                                         #pyautogui.screenshot("ocrscan2_"+str(n)+".png",region=(439,272,84,34))
-                                    exp_new1 = int(pytesseract.image_to_string(invert1,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789'))
+                                    exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789')
                                     try:
-                                        exp_new2 = int(pytesseract.image_to_string(invert2,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789'))
+                                        exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789')
                                     except ValueError:
                                         exp_new2 = 0
                                         pass
+                                    if len(exp_new1) == 6 and exp_new1[0] == '4':
+                                        exp_new1=int(exp_new1[1:])
+                                        #print('EXP1 - 5 CHAR DETECTED')
+                                    if len(exp_new2) == 6 and int(exp_new2[0]) == '4':
+                                        exp_new2=int(exp_new2[1:])
+                                        #print('EXP2 - 5 CHAR DETECTED')
+                                    exp_new1 = int(exp_new1)
+                                    try:
+                                        exp_new2 = int(exp_new2)
+                                    except ValueError:
+                                        exp_new2 = 0
                                     exp_new=exp_new1+exp_new2
                                     exp=exp+exp_new
                                     if OCR_debug == 1:
