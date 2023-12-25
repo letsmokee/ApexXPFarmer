@@ -69,7 +69,7 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-Random = ['4','q','1','2','3','4'] #don't touch
+Random = ['w','a','s','d','c','4','q','1','2','3','4'] #don't touch
 time.sleep(2)
 window_found = 0
 exp=0
@@ -292,6 +292,14 @@ while True:
         if (time_lapsed > timp-600) and (ingame == 0):
             time.sleep (15)
             mod = 4
+        if pyautogui.locateOnScreen(resource_path('ss\\afk.png'), region=(588,265,776,536), grayscale=True, confidence=0.8) != None: 
+            print ('---------- DETECTED AFK, PROCEEDING TO REINITIALIZE -------------')
+            pyautogui.click(960, 719)
+            time.sleep(np.random.uniform(0.3,0.7))
+            pyautogui.click(960, 719)
+            window_found = 0
+            mod = 2
+            
         if process_exists('r5apex.exe'):
             pass
         else: 
