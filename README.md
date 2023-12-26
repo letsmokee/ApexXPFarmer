@@ -42,7 +42,7 @@ This script automates certain actions in the game using Python libraries such as
 
 ## Installation
 - WINDOWS installation
-    1. Download executable from release
+    1. Download executable from [release](https://github.com/letsmokee/ApexXPFarmer/releases/)
     2. Run the executable, on first run it will generate a config.ini file which you need to edit with your Apex directory and time for restart
     3. Follow the on screen instructions
        
