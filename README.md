@@ -9,13 +9,15 @@ This script automates certain actions in the game using Python libraries such as
 **WORKS WITH SEASON 19 - ONLY 1920x1080 16:9**
 - starting the game automatically
 - auto restart game on set interval (default = 9000)
-- WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours
-- With this automatic restart it runs 12+ hours tested
+- WHY: on low performance systems sometimes due to low memory game would freeze randomly after some hours<br />
+  With this automatic restart it runs 12+ hours tested
 - anti-kick
 - auto start matchmaking
 - getting out of news, battlepass windows etc.
 - remembering how much XP you got in a session
-- remembering how much time you farmed in a session
+- remembering how much time you farmed in a session<br />
+**24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE (UP TO 8000-10000 IF YOU ARE LUCKY)**
+![24hrs](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/61549d85-d1df-49f8-862b-e6ce11b88f4b)
 
 ## PREREQUISITES
 - PYTHON (if you want to use directly the source code)
