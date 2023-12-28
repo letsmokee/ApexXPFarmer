@@ -1,5 +1,7 @@
 # Apex AFK Farm Bot
 
+![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/cd3ffa15-e314-4c1d-860d-87f75093bd2a)
+
 Based on [apexAFKfarmbot](https://github.com/iIndrasura/apexAFKfarmbot) for inspiration
 
 The Apex AFK Farm Bot is a powerful automation tool designed to assist Apex Legends players in farming in-game rewards while being AFK (Away From Keyboard). This repository provides the source code and instructions for using the bot effectively.
