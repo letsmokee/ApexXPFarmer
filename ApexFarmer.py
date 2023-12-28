@@ -1,4 +1,5 @@
 import configparser
+import ctypes
 from pyautogui import *
 import pyautogui
 import time
@@ -15,8 +16,12 @@ import msvcrt
 import datetime
 import pytesseract
 import cv2
-
+import rainbowtext
 # instantiate
+
+UP = '\033[1A'
+CLEAR = '\x1b[2K'
+ctypes.windll.kernel32.SetConsoleTitleW("APEX XP FARM BOT BY LETSMOKE")
 config = configparser.ConfigParser()
 if os.path.isfile('config.ini') is not True:
     config['CONFIG'] = {'Time': '9000',
@@ -36,27 +41,31 @@ apexdir = str(config.get('CONFIG', 'ApexDir'))
 OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
 
-print(r"           _____  ________   __   ______      _____  __  __ ______ _____   ")
-print(r"     /\   |  __ \|  ____\ \ / /  |  ____/\   |  __ \|  \/  |  ____|  __ \  ")
-print(r"    /  \  | |__) | |__   \ V /   | |__ /  \  | |__) | \  / | |__  | |__) | ")
-print(r"   / /\ \ |  ___/|  __|   > <    |  __/ /\ \ |  _  /| |\/| |  __| |  _  /  ")
-print(r"  / ____ \| |    | |____ / . \   | | / ____ \| | \ \| |  | | |____| | \ \  ")
-print(r" /_/____\_\_|__  |______/_/_\_\  |_|/_/ ___\_\_|  \_\_|__|_|______|_|__\_\ ")
-print(r"  ____ _     _    _      ______ ________ ____ __  __  ____  _  __ _____    ")
-print(r" |  _ \ \   / /  | |    |  ____|__   __/ ____|  \/  |/ __ \| |/ /  ____|   ")
-print(r" | |_) \ \_/ /   | |    | |__     | | | (___ | \  / | |  | | ' /| |__      ")
-print(r" |  _ < \   /    | |    |  __|    | |  \___ \| |\/| | |  | |  < |  __|     ")
-print(r" | |_) | | |     | |____| |____   | |  ____) | |  | | |__| | . \| |____    ")
-print(r" |____/  |_|     |______|______|  |_| |_____/|_|  |_|\____/|_|\_\______|   ")
+print(rainbowtext.text(r"           _____  ________   __   ______      _____  __  __ ______ _____   "))
+print(rainbowtext.text(r"     /\   |  __ \|  ____\ \ / /  |  ____/\   |  __ \|  \/  |  ____|  __ \  "))
+print(rainbowtext.text(r"    /  \  | |__) | |__   \ V /   | |__ /  \  | |__) | \  / | |__  | |__) | "))
+print(rainbowtext.text(r"   / /\ \ |  ___/|  __|   > <    |  __/ /\ \ |  _  /| |\/| |  __| |  _  /  "))
+print(rainbowtext.text(r"  / ____ \| |    | |____ / . \   | | / ____ \| | \ \| |  | | |____| | \ \  "))
+print(rainbowtext.text(r" /_/____\_\_|__  |______/_/_\_\  |_|/_/ ___\_\_|  \_\_|__|_|______|_|__\_\ "))
+print(rainbowtext.text(r"  ____ _     _    _      ______ ________ ____ __  __  ____  _  __ _____    "))
+print(rainbowtext.text(r" |  _ \ \   / /  | |    |  ____|__   __/ ____|  \/  |/ __ \| |/ /  ____|   "))
+print(rainbowtext.text(r" | |_) \ \_/ /   | |    | |__     | | | (___ | \  / | |  | | ' /| |__      "))
+print(rainbowtext.text(r" |  _ < \   /    | |    |  __|    | |  \___ \| |\/| | |  | |  < |  __|     "))
+print(rainbowtext.text(r" | |_) | | |     | |____| |____   | |  ____) | |  | | |__| | . \| |____    "))
+print(rainbowtext.text(r" |____/  |_|     |______|______|  |_| |_____/|_|  |_|\____/|_|\_\______|   "))
 print("") 
 print("            ___________________                      ")
-print("CONFIG: -> | Time for restart: | >>>", timp, "sec")
+print("CONFIG: -> | Time for restart: | >>> ", timp, "sec")
 print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
 print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
 print("CONFIG: -> |    DEBUG MODE:    | >>>", OCR_debug)
 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                      ")
+print('')
+print('')
+print('')
 print("Press any key to continue if settings are correct")
 msvcrt.getch()
+print(UP, end=CLEAR)
 print("Continuing...")
 
 def resource_path(relative_path):
@@ -77,6 +86,9 @@ exp_new=0
 exp_new1=0
 exp_new2=0
 n = 1
+time_stuck=0
+time_stuck_start=0
+time_stuck_end=0
 
 #checking if apex is running
 def process_exists(process_name):
@@ -91,26 +103,35 @@ start_time_absolute = time.time()
 if process_exists('r5apex.exe'):
     mod = 2
     start_time = time.time()
+    time_stuck_start= time.time()
 
 else: 
     mod = 1
-#checking if apex is running    
-
+#checking if apex is running   
 #program loop
 while True:
-    #print ('Mod = ', mod)
-    print ('----------Starting game and setting Apex window active-----------')
     #starting game, make apex window active, starting counting for game restart
     if mod == 1:
-        subprocess.call([apexdir])
-        time.sleep(10)
+        if process_exists('r5apex.exe') is False:
+            print(UP, end=CLEAR)
+            print ("------------------------------------GAME NOT STARTED, STARTING-------------------------------------")
+            subprocess.call([apexdir])
         start_time = time.time()
+        time_stuck_start= time.time()
+        time_stuck_end=0
+        time.sleep(10)
         window_found = 0
         mod = 2
 
     #checkking if game was opened and closing news or other in game windows
     while mod == 2:
-        print ('----------Checking if game is opened and getting into main menu-------------')
+        time_stuck_end=time.time()
+        time.sleep(0.5)
+        time_stuck=time_stuck_end-time_stuck_start
+        if time_stuck>240:
+            mod=4
+        print(UP, end=CLEAR)
+        print ('----------APEX LEGENDS FOUND, PROCEEDING SETTING ACTIVE WINDOW AND PREPARE FOR MATCHMAKING-------------')
         apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
         time.sleep(0.5)
         if (apex_hwnd != 0) and (window_found == 0):
@@ -125,7 +146,8 @@ while True:
             window_found = 1
             
         if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
-            print("-------------In game detected, moving to mode farming--------------")
+            print(UP, end=CLEAR)
+            print("------------------------------DETECTED IN MATCH, MOVING TO FARMING MODE-----------------------------")
             mod = 3
 
         if pyautogui.locateOnScreen(resource_path('ss\\gameopen.png'), grayscale=True, confidence=0.7) != None:
@@ -134,20 +156,16 @@ while True:
             pyautogui.click(956, 647)     
 
         if pyautogui.locateOnScreen(resource_path('ss\\news.png'), grayscale=True, confidence=0.6) != None:
-            #print("news")
             keyboard.press_and_release('esc')
             
         if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), grayscale=True, confidence=0.6) != None:
-            #print("continue2")
             keyboard.press_and_release('esc')
 
         if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
-            #print("space2.png")
             keyboard.press_and_release('space')
             time.sleep(np.random.uniform(0.4,0.8))
 
         if pyautogui.locateOnScreen(resource_path('ss\\back.png'), grayscale=True, confidence=0.6) != None:
-            #print("back")
             time.sleep(np.random.uniform(0.3,0.8))
             keyboard.press_and_release('esc')
 
@@ -164,15 +182,14 @@ while True:
                 pyautogui.moveTo(200,100)
         if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None) and (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
             time.sleep(1)
-            print ('----------Apex window active and game started------------')
-            if pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None:
-                print('------------------------------------------------')            
-                print('---------------Fill not checked-----------------')
-                print('------------------------------------------------')
+            print(UP, end=CLEAR)
+            print ('-------------------------------------------READY TO FARM-------------------------------------------')
+            if pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None:            
+                #print('---------------Fill not checked-----------------')
+                #print(UP, end=CLEAR)
+                time.sleep(2)
                 pyautogui.moveTo(200,100)
                 mod = 3
-        #print ('WHILE mod = ', mod)
-    
     
     #program loop
     while mod == 3:
@@ -194,7 +211,9 @@ while True:
             time.sleep(0.1)
 
         elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp-600):
-            print ('----------MATCHMAKING STARTED------------')
+            #print(UP, end=CLEAR)
+            #print ('----------MATCHMAKING STARTED------------')
+            time.sleep(2)
         else:
             pass
         
@@ -225,15 +244,20 @@ while True:
                     pyautogui.click(850, 713)
                     time.sleep(np.random.uniform(0.4,0.8))
                     pyautogui.click(850, 713)
+                    time.sleep(4)
+                if pyautogui.locateOnScreen(resource_path('ss\\battlepass.png'), region=(51,987,122,41), grayscale=True, confidence=0.8) != None:
+                        #print('space2')
+                        keyboard.press_and_release('space')
+                        time.sleep(0.5)
                 if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
                     #print('matchsummary')
                     keyboard.press_and_release('space')
-                    time.sleep(2)
+                    time.sleep(0.5)
                     if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) is None:
                         while True:
                             if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
                                 #print('exp screen')
-                                time.sleep(6)
+                                time.sleep(5)
                                 if show_exp==1:
                                     image1=pyautogui.screenshot(region=(457,231,61,38))
                                     imagenp1 = np.array(image1)
@@ -293,18 +317,28 @@ while True:
             time.sleep(np.random.uniform(0.3,0.7))
             pyautogui.click(952, 717)
         if show_exp==1:
-            print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'TOTAL EXP:', exp, 'New EXP:',exp_new,'--------------')
-            print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print("            ___________________   ")
+            print ('           | TOTAL TIME FARMED | -> |',' | TOTAL EXP:', exp," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
+            print ('           |    RESTART TIME   | -> |',' |  NEW EXP:',exp_new," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ")
+            print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
         else:
-            print ('---------- Currently farming for ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'--------------')
-            print ('---------- Time counted for restart: ',datetime.timedelta(seconds=round(time_lapsed)),'-----','ingame:' ,ingame, "--------------------")
-        
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print("            ___________________   ")
+            print ('           | TOTAL TIME FARMED | -> |'," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
+            print ('           |    RESTART TIME   | -> |'," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ")
+            print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")        
         #checking if time lapsed is more than set time and checking if it's in game
         if (time_lapsed > timp-600) and (ingame == 0):
             time.sleep (15)
             mod = 4
         if pyautogui.locateOnScreen(resource_path('ss\\afk.png'), region=(588,265,776,536), grayscale=True, confidence=0.8) != None: 
-            print ('---------- DETECTED AFK, PROCEEDING TO REINITIALIZE -------------')
+            print(UP, end=CLEAR)
+            #print ('---------- DETECTED AFK, PROCEEDING TO REINITIALIZE -------------')
             pyautogui.click(960, 719)
             time.sleep(np.random.uniform(0.3,0.7))
             pyautogui.click(960, 719)
@@ -314,24 +348,46 @@ while True:
         if process_exists('r5apex.exe'):
             pass
         else: 
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
+            print(UP, end=CLEAR)
             print ('---------- APEX IS NOT RUNNING, WHAT DO YOU WANT TO DO? -------------')
-            print ('---------- STOP - TYPE 1 /// RESTART - TYPE 2 -------------')
+            print ('--------------- STOP - TYPE 1 /// RESTART - TYPE 2 ------------------')
             while True:
-                data_input = int(input('PICK WHAT TO DO NEXT: '))
+                data_input = int(input('----------------------- PICK WHAT TO DO NEXT: -----------------------'))
                 if data_input == 1:
-                    print ('---------- SESSION STATS -------------')
+                    print(UP, end=CLEAR)
+                    print(UP, end=CLEAR)
+                    print(UP, end=CLEAR)
+                    print("               ____________   ")
+                    print ('              | FARM STATS |')
+                    print("               ‾‾‾‾‾‾‾‾‾‾‾‾  ")
                     if show_exp==1:
-                        print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),' | TOTAL EXP EARNED:', exp,'--------------')
-                        print ('---------- EXIT IN 5 SEC --------------')
-                        time.sleep(5)
+                        print("            ___________________   ")
+                        print ('           | TOTAL TIME FARMED | -> | ', exp)
+                        print ('           |  TOTAL XP GAINED  | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
+                        print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
+                        time.sleep(15)
                         exit()
                     else:
-                        print ('---------- TIME: ',datetime.timedelta(seconds=round(time_lapsed_absolute)),'--------------')
-                        print ('---------- EXIT IN 5 SEC --------------')
-                        time.sleep(5)
+                        print("            ___________________   ")
+                        print ('           | TOTAL TIME FARMED | -> | N/A')
+                        print ('           |  TOTAL XP GAINED  | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
+                        print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
+                        time.sleep(15)
                         exit()
                 elif data_input == 2:
+                    print(UP, end=CLEAR)
+                    print(UP, end=CLEAR)
+                    print(UP, end=CLEAR)
                     print ('---------- PROGRAM RESTART -------------')
+                    time.sleep(1)
+                    print(UP, end=CLEAR)
+                    print ('')
+                    print ('')
+                    print ('')
+                    print ('')
                     mod = 1
                     exp=0
                     exp_new=0
@@ -339,11 +395,16 @@ while True:
                     exp_new2=0
                     break
                 else:
+                    print(UP, end=CLEAR)
                     print ('You have made an invalid choice, try again.')
             
 #checking if apex is running 
 
     if mod == 4:
+        print(UP, end=CLEAR)
+        print(UP, end=CLEAR)
+        print(UP, end=CLEAR)
+        print(UP, end=CLEAR)
         os.system('taskkill /f /im r5apex.exe')
         os.system('taskkill /f /im r5apex.exe')
         time.sleep(15)
