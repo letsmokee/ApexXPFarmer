@@ -89,6 +89,9 @@ n = 1
 time_stuck=0
 time_stuck_start=0
 time_stuck_end=0
+boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostApplied","6BoostApplied","7BoostApplied","8BoostApplied","9BoostApplied"]
+coords_boost=[849,566,153,62]
+coords_no_boost=[807,551,194,62]
 
 #checking if apex is running
 def process_exists(process_name):
@@ -272,6 +275,20 @@ while True:
                                     #print('exp screen')
                                     time.sleep(5)
                                     if show_exp==1:
+                                        image4=pyautogui.screenshot('test4.png',region=(840,543,131,24))
+                                        imagenp4 = np.array(image4)
+                                        gray4 = cv2.cvtColor(imagenp4, cv2.COLOR_BGR2GRAY)
+                                        invert4 = 255 - gray4
+                                        boost_text=pytesseract.image_to_string(invert4,lang='eng', config='--psm 12 -c tessedit_char_whitelist=123456789BostAplied')
+                                        res = any(ele in boost_text for ele in boost)
+                                        if res is True:
+                                            print("coords boost")
+                                            coords=coords_boost
+                                        else:
+                                            print("coords no boost")
+                                            coords=coords_no_boost
+                                            
+                                            
                                         image1=pyautogui.screenshot(region=(457,231,61,38))
                                         imagenp1 = np.array(image1)
                                         gray1 = cv2.cvtColor(imagenp1, cv2.COLOR_BGR2GRAY)
@@ -282,7 +299,7 @@ while True:
                                         gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
                                         invert2 = 255 - gray2
                                         
-                                        image3=pyautogui.screenshot(region=(807,551,194,62))
+                                        image3=pyautogui.screenshot(region=(coords))
                                         imagenp3 = np.array(image3)
                                         gray3 = cv2.cvtColor(imagenp3, cv2.COLOR_BGR2GRAY)
                                         invert3 = 255 - gray3
