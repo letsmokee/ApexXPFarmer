@@ -235,9 +235,9 @@ while True:
     
         if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) or pyautogui.locateOnScreen(resource_path('ss\\2ndplace.png'), region=(441,19,1017,304), confidence=0.6) != None:
             #print("dead")
-            time.sleep(np.random.uniform(1,2))
+            time.sleep(np.random.uniform(0.3,0.5))
             keyboard.press_and_release('space')
-            time.sleep(np.random.uniform(1,2))
+            time.sleep(np.random.uniform(0.3,0.7))
             while True:
                 if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
                     #print('yes')
@@ -268,28 +268,52 @@ while True:
                                     imagenp2 = np.array(image2)
                                     gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
                                     invert2 = 255 - gray2
+                                    
+                                    image3=pyautogui.screenshot(region=(807,551,194,62))
+                                    imagenp3 = np.array(image3)
+                                    gray3 = cv2.cvtColor(imagenp3, cv2.COLOR_BGR2GRAY)
+                                    invert3 = 255 - gray3
+                                    
                                     if OCR_debug == 1:
-                                        pyautogui.screenshot("saved_without"+str(n)+".png")
-                                        #pyautogui.screenshot("ocrscan1_"+str(n)+".png",region=(445,231,80,37))
-                                        #pyautogui.screenshot("ocrscan2_"+str(n)+".png",region=(439,272,84,34))
-                                    exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789')
+                                        pyautogui.screenshot("saved_without_exp"+str(n)+".png")
+                                        
+                                    exp_new3 = int(pytesseract.image_to_string(invert3,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789'))
+                                    exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                     try:
-                                        exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 12 -c tessedit_char_whitelist=0123456789')
+                                        exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                     except ValueError:
                                         exp_new2 = 0
                                         pass
+                                        
+                                        
                                     if len(exp_new1) == 6 and exp_new1[0] == '4':
                                         exp_new1=int(exp_new1[1:])
                                         #print('EXP1 - 5 CHAR DETECTED')
                                     if len(exp_new2) == 6 and int(exp_new2[0]) == '4':
                                         exp_new2=int(exp_new2[1:])
                                         #print('EXP2 - 5 CHAR DETECTED')
+                                        
+
                                     exp_new1 = int(exp_new1)
                                     try:
                                         exp_new2 = int(exp_new2)
                                     except ValueError:
                                         exp_new2 = 0
                                     exp_new=exp_new1+exp_new2
+                                    
+                                    exp_new=str(exp_new) 
+                                    if exp_new[0]=='4' and exp_new[1]=='4' and len(exp_new)==4:
+                                        exp_new=exp_new[1:]
+                                    
+                                    exp_new = int(exp_new)
+                                    
+                                    if exp_new == exp_new3:
+                                        pass
+                                    if exp_new > 4000:
+                                        exp_new=exp_new3
+                                    elif len(str(exp_new))==3 and len(str(exp_new3))==4:
+                                        exp_new=exp_new3
+                                    
                                     exp=exp+exp_new
                                     if OCR_debug == 1:
                                         pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
