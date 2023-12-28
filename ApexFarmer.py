@@ -110,7 +110,7 @@ else:
 #checking if apex is running   
 #program loop
 while True:
-time.sleep(0.005)
+    time.sleep(0.005)
     #starting game, make apex window active, starting counting for game restart
     if mod == 1:
         if process_exists('r5apex.exe') is False:
