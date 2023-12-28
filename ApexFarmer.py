@@ -148,6 +148,7 @@ while True:
         if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
             print(UP, end=CLEAR)
             print("------------------------------DETECTED IN MATCH, MOVING TO FARMING MODE-----------------------------")
+            time_stuck_start= 0
             mod = 3
 
         if pyautogui.locateOnScreen(resource_path('ss\\gameopen.png'), grayscale=True, confidence=0.7) != None:
@@ -376,6 +377,7 @@ while True:
             print(UP, end=CLEAR)
             print(UP, end=CLEAR)
             print(UP, end=CLEAR)
+            print('')
             print ('---------- APEX IS NOT RUNNING, WHAT DO YOU WANT TO DO? -------------')
             print ('--------------- STOP - TYPE 1 /// RESTART - TYPE 2 ------------------')
             while True:
