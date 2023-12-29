@@ -306,15 +306,14 @@ while True:
                                         
                                         if OCR_debug == 1:
                                             pyautogui.screenshot("saved_without_exp"+str(n)+".png")
-                                            
-                                        exp_new3 = int(pytesseract.image_to_string(invert3,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789'))
-                                        exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                         try:
-                                            exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                            exp_new3 = int(pytesseract.image_to_string(invert3,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789'))
                                         except ValueError:
-                                            exp_new2 = 0
-                                            pass
-                                            
+                                            exp_new3 = 0
+                                            pass    
+                                        
+                                        exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                        exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                             
                                         if len(exp_new1) == 6 and exp_new1[0] == '4':
                                             exp_new1=int(exp_new1[1:])
@@ -436,13 +435,12 @@ while True:
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
-                        print ('---------- PROGRAM RESTART -------------')
-                        time.sleep(1)
                         print(UP, end=CLEAR)
                         print ('')
                         print ('')
                         print ('')
-                        print ('')
+                        print ('---------- PROGRAM RESTART -------------')
+                        time.sleep(1)
                         mod = 1
                         exp=0
                         exp_new=0
@@ -450,18 +448,20 @@ while True:
                         exp_new2=0
                         break
                     else:
-                        print(UP, end=CLEAR)
                         print ('You have made an invalid choice, try again.')
+                        time.sleep(1)
+                        print(UP, end=CLEAR)
             
 #checking if apex is running 
 
     if mod == 4:
-        print(UP, end=CLEAR)
-        print(UP, end=CLEAR)
-        print(UP, end=CLEAR)
-        print(UP, end=CLEAR)
+        print ('')
+        print ('')
         os.system('taskkill /f /im r5apex.exe')
         os.system('taskkill /f /im r5apex.exe')
-        time.sleep(15)
+        time.sleep(5)
+        print(UP, end=CLEAR)
+        print(UP, end=CLEAR)
+        time.sleep(10)
         mod = 1
         
