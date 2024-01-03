@@ -17,6 +17,7 @@ import datetime
 import pytesseract
 import cv2
 import rainbowtext
+from inputimeout import inputimeout, TimeoutOccurred
 # instantiate
 
 UP = '\033[1A'
@@ -41,6 +42,28 @@ apexdir = str(config.get('CONFIG', 'ApexDir'))
 OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
 
+#------------------
+matchmaking=0
+timer_matchmaking=0
+timer_matchmaking_end=0
+timer_matchmaking_start=0
+Random = ['w','a','s','d','c','4','q','1','2','3','4'] #don't touch
+time.sleep(2)
+window_found = 0
+exp=0
+exp_new=0
+exp_new1=0
+exp_new2=0
+n = 1
+time_stuck=0
+time_stuck_start=0
+time_stuck_end=0
+boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostApplied","6BoostApplied","7BoostApplied","8BoostApplied","9BoostApplied"]
+coords_boost=[849,566,153,62]
+coords_no_boost=[807,551,194,62]
+coords_auto_fill=[143,681]
+
+
 print(rainbowtext.text(r"           _____  ________   __   ______      _____  __  __ ______ _____   "))
 print(rainbowtext.text(r"     /\   |  __ \|  ____\ \ / /  |  ____/\   |  __ \|  \/  |  ____|  __ \  "))
 print(rainbowtext.text(r"    /  \  | |__) | |__   \ V /   | |__ /  \  | |__) | \  / | |__  | |__) | "))
@@ -63,9 +86,11 @@ print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾    
 print('')
 print('')
 print('')
+print('')
 print("Press any key to continue if settings are correct")
 msvcrt.getch()
 print(UP, end=CLEAR)
+time.sleep(0.005)
 print("Continuing...")
 
 def resource_path(relative_path):
@@ -181,8 +206,8 @@ while True:
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-                pyautogui.moveTo(119,582)
-                pyautogui.click(119,582)
+                pyautogui.moveTo(coords_auto_fill)
+                pyautogui.click(coords_auto_fill)
                 time.sleep(2)
                 pyautogui.moveTo(200,100)
         if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None) and (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
@@ -204,8 +229,8 @@ while True:
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-                pyautogui.moveTo(119,582)
-                pyautogui.click(119,582)
+                pyautogui.moveTo(coords_auto_fill)
+                pyautogui.click(coords_auto_fill)
                 time.sleep(0.5)
                 pyautogui.moveTo(200,100)
         elif pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None:                       
@@ -225,13 +250,35 @@ while True:
                 time.sleep(np.random.uniform(0.3,0.8))
                 pyautogui.moveTo(200,100)
                 time.sleep(0.1)
-
-            elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp-600):
-                #print(UP, end=CLEAR)
-                #print ('----------MATCHMAKING STARTED------------')
-                time.sleep(2)
+            else: 
+                continue
+            
+            if pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
+                if matchmaking==0:
+                    matchmaking=1
+                    timer_matchmaking_start=time.time()
+                while matchmaking==1:
+                    timer_matchmaking_end=time.time()
+                    time.sleep(0.05)
+                    timer_matchmaking=timer_matchmaking_end-timer_matchmaking_start
+                    if pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
+                        time.sleep(1)
+                    elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>240):
+                        pyautogui.moveTo(230,950)
+                        pyautogui.click(230,950)
+                        time.sleep(np.random.uniform(0.3,0.8))
+                        pyautogui.moveTo(200,100)
+                        time.sleep(0.1)
+                        matchmaking=0
+                        timer_matchmaking=0
+                        break
+                    elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) is None:
+                        matchmaking=0
+                        timer_matchmaking=0
+                        break
             else:
-                pass
+                continue
+
             
             if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
                 #print("space2.png")
@@ -275,17 +322,17 @@ while True:
                                     #print('exp screen')
                                     time.sleep(5)
                                     if show_exp==1:
-                                        image4=pyautogui.screenshot('test4.png',region=(840,543,131,24))
+                                        image4=pyautogui.screenshot(region=(840,543,131,24))
                                         imagenp4 = np.array(image4)
                                         gray4 = cv2.cvtColor(imagenp4, cv2.COLOR_BGR2GRAY)
                                         invert4 = 255 - gray4
                                         boost_text=pytesseract.image_to_string(invert4,lang='eng', config='--psm 12 -c tessedit_char_whitelist=123456789BostAplied')
                                         res = any(ele in boost_text for ele in boost)
                                         if res is True:
-                                            print("coords boost")
+                                            #print("coords boost")
                                             coords=coords_boost
                                         else:
-                                            print("coords no boost")
+                                            #print("coords no boost")
                                             coords=coords_no_boost
                                             
                                             
@@ -381,6 +428,8 @@ while True:
             else:
                 print(UP, end=CLEAR)
                 print(UP, end=CLEAR)
+                print(UP, end=CLEAR)
+                print(UP, end=CLEAR)
                 print("            ___________________   ")
                 print ('           | TOTAL TIME FARMED | -> |'," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
                 print ('           |    RESTART TIME   | -> |'," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ")
@@ -390,7 +439,6 @@ while True:
                 time.sleep (15)
                 mod = 4
             if pyautogui.locateOnScreen(resource_path('ss\\afk.png'), region=(588,265,776,536), grayscale=True, confidence=0.8) != None: 
-                print(UP, end=CLEAR)
                 #print ('---------- DETECTED AFK, PROCEEDING TO REINITIALIZE -------------')
                 pyautogui.click(960, 719)
                 time.sleep(np.random.uniform(0.3,0.7))
@@ -406,10 +454,18 @@ while True:
                 print(UP, end=CLEAR)
                 print(UP, end=CLEAR)
                 print('')
-                print ('---------- APEX IS NOT RUNNING, WHAT DO YOU WANT TO DO? -------------')
-                print ('--------------- STOP - TYPE 1 /// RESTART - TYPE 2 ------------------')
+                print ('---------------------- APEX IS NOT RUNNING, WHAT DO YOU WANT TO DO? ----------------------')
+                print ('--- STOP - TYPE 1 /// RESTART - TYPE 2 // OR WITHIN 30 SEC RESTART WITH EXISTING STATS ---')
                 while True:
-                    data_input = int(input('----------------------- PICK WHAT TO DO NEXT: -----------------------'))
+
+                    try:
+                        data_input = inputimeout(prompt='------------------------------------- SELECT OPTION: -------------------------------------\n', timeout=30)
+                    except TimeoutOccurred:
+                        print(UP, end=CLEAR)
+                        print(UP, end=CLEAR)
+                        data_input = ''
+                        mod=1
+                        break
                     if data_input == 1:
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
@@ -455,12 +511,8 @@ while True:
 #checking if apex is running 
 
     if mod == 4:
-        print ('')
-        print ('')
-        os.system('taskkill /f /im r5apex.exe')
         os.system('taskkill /f /im r5apex.exe')
         time.sleep(5)
-        print(UP, end=CLEAR)
         print(UP, end=CLEAR)
         time.sleep(10)
         mod = 1
