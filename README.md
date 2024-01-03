@@ -4,7 +4,7 @@
 
 # SUPORT
 
-**For any support come on [telegram group](https://t.me/+8VvJuGPHRCoyMzlk)**
+**For any support join [telegram group](https://t.me/+vL7stRVin1g2YmM8)**
 
 ## GENERAL
 
@@ -62,7 +62,7 @@ This script automates certain actions in the game using Python libraries such as
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
 - Open an issue with the error code.
-- Join [telegram group](https://t.me/+8VvJuGPHRCoyMzlk)
+- Join [telegram group](https://t.me/+vL7stRVin1g2YmM8)
 
 ## PHOTOS
 **24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE**
