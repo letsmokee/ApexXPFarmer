@@ -18,6 +18,8 @@ This script automates certain actions in the game using Python libraries such as
 - getting out of news, battlepass windows etc.
 - remembering how much XP you got in a session
 - remembering how much time you farmed in a session<br />
+- restart matchmaking if stuck
+- see average XP / HOUR gained
 
 ## PREREQUISITES
 - PYTHON (if you want to use directly the source code)
