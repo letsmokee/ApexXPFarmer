@@ -272,7 +272,7 @@ while True:
                         matchmaking=0
                         timer_matchmaking=0
                         break
-                    elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) is None:
+                    elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9 is None:
                         matchmaking=0
                         timer_matchmaking=0
                         break
