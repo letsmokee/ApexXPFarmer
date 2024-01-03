@@ -260,7 +260,7 @@ while True:
                 timer_matchmaking_end=time.time()
                 time.sleep(0.05)
                 timer_matchmaking=timer_matchmaking_end-timer_matchmaking_start
-                if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>3):
+                if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>120):
                     pyautogui.moveTo(230,950)
                     pyautogui.click(230,950)
                     time.sleep(np.random.uniform(0.3,0.8))
