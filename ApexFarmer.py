@@ -251,34 +251,31 @@ while True:
                 time.sleep(np.random.uniform(0.3,0.8))
                 pyautogui.moveTo(200,100)
                 time.sleep(0.1)
-            else: 
-                continue
             
-            if pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
-                if matchmaking==0:
-                    matchmaking=1
-                    timer_matchmaking_start=time.time()
-                while matchmaking==1:
-                    timer_matchmaking_end=time.time()
-                    time.sleep(0.05)
-                    timer_matchmaking=timer_matchmaking_end-timer_matchmaking_start
-                    if pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
-                        time.sleep(1)
-                    elif (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>240):
-                        pyautogui.moveTo(230,950)
-                        pyautogui.click(230,950)
-                        time.sleep(np.random.uniform(0.3,0.8))
-                        pyautogui.moveTo(200,100)
-                        time.sleep(0.1)
-                        matchmaking=0
-                        timer_matchmaking=0
-                        break
-                    elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) is None:
-                        matchmaking=0
-                        timer_matchmaking=0
-                        break
-            else:
-                continue
+            if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (matchmaking == 0):
+                matchmaking=1
+                timer_matchmaking_start=time.time()
+            while matchmaking==1:
+                #print(timer_matchmaking)
+                timer_matchmaking_end=time.time()
+                time.sleep(0.05)
+                timer_matchmaking=timer_matchmaking_end-timer_matchmaking_start
+                if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>3):
+                    pyautogui.moveTo(230,950)
+                    pyautogui.click(230,950)
+                    time.sleep(np.random.uniform(0.3,0.8))
+                    pyautogui.moveTo(200,100)
+                    time.sleep(0.1)
+                    matchmaking=0
+                    timer_matchmaking=0
+                    break
+                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
+                    time.sleep(1)
+
+                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) is None:
+                    matchmaking=0
+                    timer_matchmaking=0
+                    break
 
             
             if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
@@ -468,7 +465,7 @@ while True:
                         data_input = ''
                         mod=1
                         break
-                    if data_input == 1:
+                    if data_input == '1':
                         xp_hour=(exp*3600)/time_lapsed_absolute
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
@@ -490,7 +487,7 @@ while True:
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
                             exit()
-                    elif data_input == 2:
+                    elif data_input == '2':
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
