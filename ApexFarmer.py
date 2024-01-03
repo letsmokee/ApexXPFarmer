@@ -62,6 +62,7 @@ boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostAp
 coords_boost=[849,566,153,62]
 coords_no_boost=[807,551,194,62]
 coords_auto_fill=[143,681]
+xp_hour=0
 
 
 print(rainbowtext.text(r"           _____  ________   __   ______      _____  __  __ ______ _____   "))
@@ -417,12 +418,13 @@ while True:
                 time.sleep(np.random.uniform(0.3,0.7))
                 pyautogui.click(952, 717)
             if show_exp==1:
+                xp_hour=(exp*3600)/time_lapsed_absolute
                 print(UP, end=CLEAR)
                 print(UP, end=CLEAR)
                 print(UP, end=CLEAR)
                 print(UP, end=CLEAR)
                 print("            ___________________   ")
-                print ('           | TOTAL TIME FARMED | -> |',' | TOTAL EXP:', exp," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
+                print ('           | TOTAL TIME FARMED | -> |',' | TOTAL EXP:', exp," | XP/HOUR:",round(xp_hour)," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
                 print ('           |    RESTART TIME   | -> |',' |  NEW EXP:',exp_new," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ")
                 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
             else:
@@ -467,6 +469,7 @@ while True:
                         mod=1
                         break
                     if data_input == 1:
+                        xp_hour=(exp*3600)/time_lapsed_absolute
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
@@ -475,15 +478,15 @@ while True:
                         print("               ‾‾‾‾‾‾‾‾‾‾‾‾  ")
                         if show_exp==1:
                             print("            ___________________   ")
-                            print ('           | TOTAL TIME FARMED | -> | ', exp)
-                            print ('           |  TOTAL XP GAINED  | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
+                            print ('           |  TOTAL XP GAINED  | -> | ', exp," | XP/HOUR:",round(xp_hour))
+                            print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
                             exit()
                         else:
                             print("            ___________________   ")
-                            print ('           | TOTAL TIME FARMED | -> | N/A')
-                            print ('           |  TOTAL XP GAINED  | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
+                            print ('           |  TOTAL XP GAINED  | -> | N/A')
+                            print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
                             exit()
