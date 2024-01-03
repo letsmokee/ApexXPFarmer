@@ -18,8 +18,6 @@ This script automates certain actions in the game using Python libraries such as
 - getting out of news, battlepass windows etc.
 - remembering how much XP you got in a session
 - remembering how much time you farmed in a session<br />
-**24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE (UP TO 8000-10000 IF YOU ARE LUCKY)**
-![24hrs](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/61549d85-d1df-49f8-862b-e6ce11b88f4b)
 
 ## PREREQUISITES
 - PYTHON (if you want to use directly the source code)
@@ -56,6 +54,13 @@ This script automates certain actions in the game using Python libraries such as
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
 - Open an issue with the error code.
+
+## PHOTOS
+**24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE**
+![24hrs](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/61549d85-d1df-49f8-862b-e6ce11b88f4b)
+**3 DAYS+ FARM SESSION, 7747 XP / HOUR AVERAGE**
+![3 days](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/42fdeefe-88d4-4325-9870-1f812f192e77)
+
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug fixes, or new features to add, feel free to open an issue or submit a pull request.
