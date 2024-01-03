@@ -2,6 +2,12 @@
 
 ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/cd3ffa15-e314-4c1d-860d-87f75093bd2a)
 
+# SUPORT
+
+**For any support come on [telegram group](https://t.me/+8VvJuGPHRCoyMzlk)**
+
+## GENERAL
+
 Based on [apexAFKfarmbot](https://github.com/iIndrasura/apexAFKfarmbot) for inspiration
 
 The Apex AFK Farm Bot is a powerful automation tool designed to assist Apex Legends players in farming in-game rewards while being AFK (Away From Keyboard). This repository provides the source code and instructions for using the bot effectively.
@@ -56,6 +62,7 @@ This script automates certain actions in the game using Python libraries such as
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
 - Open an issue with the error code.
+- Join [telegram group](https://t.me/+8VvJuGPHRCoyMzlk)
 
 ## PHOTOS
 **24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE**
