@@ -57,7 +57,8 @@ If you encounter any problem, open a cmd window where executable is, type 'ApexF
 
 ## PHOTOS
 **24 HOUR FARM SESSION, 6062 XP / HOUR AVERAGE**
-![24hrs](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/61549d85-d1df-49f8-862b-e6ce11b88f4b)
+![24hrs](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/61549d85-d1df-49f8-862b-e6ce11b88f4b)\
+
 **3 DAYS+ FARM SESSION, 7747 XP / HOUR AVERAGE**
 ![3 days](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/42fdeefe-88d4-4325-9870-1f812f192e77)
 
