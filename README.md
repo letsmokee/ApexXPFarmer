@@ -26,6 +26,8 @@ This script automates certain actions in the game using Python libraries such as
 - remembering how much time you farmed in a session<br />
 - restart matchmaking if stuck
 - see average XP / HOUR gained
+- legend select
+- DEBUG: see how many matches OCR for EXP didn't work
 
 ## PREREQUISITES
 - PYTHON (if you want to use directly the source code)
@@ -57,7 +59,18 @@ This script automates certain actions in the game using Python libraries such as
     3. Follow the on screen instructions
        
 ## CONFIG.INI
- ![image](https://github.com/letsmokee/ApexXPFarmer/assets/107760297/4b3cb9ff-20bc-4543-bf8a-9b8423c1f53d)
+ ```
+[CONFIG]
+time = 9000 -> time to restart game in seconds
+apexdir = C:\Program Files\EA Games\Apex\\r5apex.exe -> Apex directory and executable
+ocr_debug = 0 -> EXP OCR debug mode (make screenshots to see debug why OCR didn't work)
+show_exp = 1 -> -> if you want to show experience gained
+champion = Lifeline -> Legend that you want to select
+```
+ For Legend selection use one of the following:
+ **"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"**
+
+**NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Seer, Valkyrie, Wraith are working**
 
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
