@@ -28,7 +28,8 @@ if os.path.isfile('config.ini') is not True:
     config['CONFIG'] = {'Time': '9000',
                      'ApexDir': r'C:\Program Files\EA Games\Apex\\r5apex.exe',
                      'OCR_debug': '0',
-                     'show_exp': '1'}
+                     'show_exp': '1',
+                     'Champion': 'Lifeline'}
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
@@ -41,8 +42,10 @@ timp = int(config.get('CONFIG', 'Time'))
 apexdir = str(config.get('CONFIG', 'ApexDir'))
 OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
+champion = str(config.get('CONFIG', 'Champion'))
 
 #------------------
+exp_read=0
 matchmaking=0
 timer_matchmaking=0
 timer_matchmaking_end=0
@@ -62,7 +65,13 @@ boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostAp
 coords_boost=[849,566,153,62]
 coords_no_boost=[807,551,194,62]
 coords_auto_fill=[143,681]
+team_coords=[34,651,385,49]
 xp_hour=0
+x=0
+y=0
+champ_list=["Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"]
+champ_string=r'legends\\'+champion+'.png'
+
 
 
 print(rainbowtext.text(r"           _____  ________   __   ______      _____  __  __ ______ _____   "))
@@ -82,8 +91,10 @@ print("            ___________________                      ")
 print("CONFIG: -> | Time for restart: | >>> ", timp, "sec")
 print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
 print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
+print("CONFIG: -> |      Champion     | >>>", champion)
 print("CONFIG: -> |    DEBUG MODE:    | >>>", OCR_debug)
 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                      ")
+print('')
 print('')
 print('')
 print('')
@@ -200,7 +211,7 @@ while True:
             time.sleep(np.random.uniform(0.3,0.8))
             keyboard.press_and_release('esc')
 
-        if pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) != None:
+        if pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None:
             apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
             if apex_hwnd != 0:
                 time.sleep(1)
@@ -211,11 +222,11 @@ while True:
                 pyautogui.click(coords_auto_fill)
                 time.sleep(2)
                 pyautogui.moveTo(200,100)
-        if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None) and (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
+        if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) is None) and (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
             time.sleep(1)
             print(UP, end=CLEAR)
             print ('-------------------------------------------READY TO FARM-------------------------------------------')
-            if pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None:            
+            if pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) is None:            
                 #print('---------------Fill not checked-----------------')
                 #print(UP, end=CLEAR)
                 time.sleep(2)
@@ -225,7 +236,7 @@ while True:
     #program loop
     while mod == 3:
     
-        if pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) != None:
+        if pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None:
                 time.sleep(0.5)
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
@@ -234,7 +245,7 @@ while True:
                 pyautogui.click(coords_auto_fill)
                 time.sleep(0.5)
                 pyautogui.moveTo(200,100)
-        elif pyautogui.locateOnScreen(resource_path('ss\\team.png'), confidence=0.9) is None:                       
+        elif pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) is None:                       
             #print ('Mod = ', mod)
             #updating time lapsed since start of farming on new instance
             end_time = time.time()
@@ -276,7 +287,23 @@ while True:
                     matchmaking=0
                     timer_matchmaking=0
                     break
-
+            if pyautogui.locateOnScreen(resource_path('ss\\champselect.png'), region=(494,794,253,42), confidence=0.9) != None:
+                if champion not in champ_list:
+                    pass
+                else:
+                    try:
+                        x, y = pyautogui.locateCenterOnScreen(resource_path(champ_string),region=(246,695,1357,294),confidence=0.9)
+                    except TypeError:
+                        x=0
+                        y=0
+                    if x==0 and y==0:
+                        pass
+                    else:
+                        pyautogui.click(x,y)
+                        pyautogui.click(x,y)
+                        time.sleep(0.2)
+                        pyautogui.click(x,y)
+                        time.sleep(5)
             
             if pyautogui.locateOnScreen(resource_path('ss\\space2.png'), region=(676,777,619,304), grayscale=True, confidence=0.6) != None:
                 #print("space2.png")
@@ -305,7 +332,7 @@ while True:
                         pyautogui.click(850, 713)
                         time.sleep(np.random.uniform(0.4,0.8))
                         pyautogui.click(850, 713)
-                        time.sleep(4)
+                        time.sleep(0.5)
                     if pyautogui.locateOnScreen(resource_path('ss\\battlepass.png'), region=(51,987,122,41), grayscale=True, confidence=0.8) != None:
                             #print('space2')
                             keyboard.press_and_release('space')
@@ -367,15 +394,19 @@ while True:
                                             exp_new2=int(exp_new2[1:])
                                             #print('EXP2 - 5 CHAR DETECTED')
                                             
-
-                                        exp_new1 = int(exp_new1)
+                                        try:
+                                            exp_new1 = int(exp_new1)
+                                        except ValueError:
+                                            exp_new1 = 0
+                                        
                                         try:
                                             exp_new2 = int(exp_new2)
                                         except ValueError:
                                             exp_new2 = 0
+                                            
                                         exp_new=exp_new1+exp_new2
-                                        
                                         exp_new=str(exp_new) 
+                                        
                                         if exp_new[0]=='4' and exp_new[1]=='4' and len(exp_new)==4:
                                             exp_new=exp_new[1:]
                                         
@@ -387,6 +418,9 @@ while True:
                                             exp_new=exp_new3
                                         elif len(str(exp_new))==3 and len(str(exp_new3))==4:
                                             exp_new=exp_new3
+                                        
+                                        if exp_new==0:
+                                            exp_read=exp_read+1
                                         
                                         exp=exp+exp_new
                                         if OCR_debug == 1:
@@ -422,7 +456,7 @@ while True:
                 print(UP, end=CLEAR)
                 print("            ___________________   ")
                 print ('           | TOTAL TIME FARMED | -> |',' | TOTAL EXP:', exp," | XP/HOUR:",round(xp_hour)," | ",datetime.timedelta(seconds=round(time_lapsed_absolute)),"| ",)
-                print ('           |    RESTART TIME   | -> |',' |  NEW EXP:',exp_new," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ")
+                print ('           |    RESTART TIME   | -> |',' |  NEW EXP:',exp_new," | ",datetime.timedelta(seconds=round(time_lapsed))," / ", datetime.timedelta(seconds=round(timp)),"| ", "NO EXP:", exp_read)
                 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
             else:
                 print(UP, end=CLEAR)
@@ -502,6 +536,7 @@ while True:
                         exp_new=0
                         exp_new1=0
                         exp_new2=0
+                        exp_read=0
                         break
                     else:
                         print ('You have made an invalid choice, try again.')
