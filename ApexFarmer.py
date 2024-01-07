@@ -509,7 +509,7 @@ while True:
                         print("               ‾‾‾‾‾‾‾‾‾‾‾‾  ")
                         if show_exp==1:
                             print("            ___________________   ")
-                            print ('           |  TOTAL XP GAINED  | -> | ', exp," | XP/HOUR:",round(xp_hour))
+                            print ('           |  TOTAL XP GAINED  | -> | ', exp," | XP/HOUR:",round(xp_hour), " | NO EXP:", exp_read))
                             print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
