@@ -30,6 +30,12 @@ if os.path.isfile('config.ini') is not True:
                      'OCR_debug': '0',
                      'show_exp': '1',
                      'Champion': 'Lifeline'}
+    config['KEYBINDS'] = {'Crouch_Key': 'c',
+                    'Heal_Key': '4',
+                    'Ability_Key': 'q',
+                    'Custom_Key1': '',
+                    'Custom_Key2': ''}
+    
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
@@ -44,13 +50,27 @@ OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
 champion = str(config.get('CONFIG', 'Champion'))
 
+crouch_key = str(config.get('KEYBINDS', 'Crouch_Key'))
+heal_key = str(config.get('KEYBINDS', 'Heal_Key'))
+ability_key = str(config.get('KEYBINDS', 'Ability_Key'))
+custom_key1 = str(config.get('KEYBINDS', 'Custom_Key1'))
+custom_key2 = str(config.get('KEYBINDS', 'Custom_Key2'))
+
 #------------------
+if (custom_key1 == '') and (custom_key2 == ''):
+    Random = ['w','a','s','d',crouch_key,heal_key,ability_key]
+elif custom_key1 == '':
+    Random = ['w','a','s','d',crouch_key,heal_key,ability_key,custom_key2]
+elif custom_key2 == '':
+    Random = ['w','a','s','d',crouch_key,heal_key,ability_key,custom_key1]
+else:
+    Random = ['w','a','s','d',crouch_key,heal_key,ability_key,custom_key1,custom_key2]
+
 exp_read=0
 matchmaking=0
 timer_matchmaking=0
 timer_matchmaking_end=0
 timer_matchmaking_start=0
-Random = ['w','a','s','d','c','4','q','1','2','3','4'] #don't touch
 time.sleep(2)
 window_found = 0
 exp=0
@@ -64,11 +84,12 @@ time_stuck_end=0
 boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostApplied","6BoostApplied","7BoostApplied","8BoostApplied","9BoostApplied"]
 coords_boost=[849,566,153,62]
 coords_no_boost=[807,551,194,62]
-coords_auto_fill=[143,681]
-team_coords=[34,651,385,49]
+team_coords=[24,521,409,189]
 xp_hour=0
 x=0
 y=0
+coords_auto_fill_x=0
+coords_auto_fill_y=0
 champ_list=["Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"]
 champ_string=r'legends\\'+champion+'.png'
 
@@ -88,7 +109,7 @@ print(rainbowtext.text(r" | |_) | | |     | |____| |____   | |  ____) | |  | | |
 print(rainbowtext.text(r" |____/  |_|     |______|______|  |_| |_____/|_|  |_|\____/|_|\_\______|   "))
 print("") 
 print("            ___________________                      ")
-print("CONFIG: -> | Time for restart: | >>> ", timp, "sec")
+print("CONFIG: -> | Time for restart: | >>>", timp, "sec")
 print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
 print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
 print("CONFIG: -> |      Champion     | >>>", champion)
@@ -114,21 +135,6 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
-Random = ['w','a','s','d','c','4','q','1','2','3','4'] #don't touch
-time.sleep(2)
-window_found = 0
-exp=0
-exp_new=0
-exp_new1=0
-exp_new2=0
-n = 1
-time_stuck=0
-time_stuck_start=0
-time_stuck_end=0
-boost=["1BoostApplied","2BoostApplied","3BoostApplied","4BoostApplied","5BoostApplied","6BoostApplied","7BoostApplied","8BoostApplied","9BoostApplied"]
-coords_boost=[849,566,153,62]
-coords_no_boost=[807,551,194,62]
 
 #checking if apex is running
 def process_exists(process_name):
@@ -218,10 +224,16 @@ while True:
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-                pyautogui.moveTo(coords_auto_fill)
-                pyautogui.click(coords_auto_fill)
-                time.sleep(2)
-                pyautogui.moveTo(200,100)
+                try:
+                    coords_auto_fill_x, coords_auto_fill_y = pyautogui.locateCenterOnScreen(resource_path('ss\\team.png'),region=(team_coords),confidence=0.9)
+                except TypeError:
+                    x=0
+                    y=0
+                if (coords_auto_fill_x!=0) and (coords_auto_fill_y!=0):
+                    pyautogui.moveTo(coords_auto_fill_x,coords_auto_fill_y)
+                    pyautogui.click(coords_auto_fill_x,coords_auto_fill_y)
+                    time.sleep(2)
+                    pyautogui.moveTo(200,100)
         if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) is None) and (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), grayscale=True, confidence=0.7) != None):
             time.sleep(1)
             print(UP, end=CLEAR)
@@ -235,28 +247,31 @@ while True:
     
     #program loop
     while mod == 3:
-    
         if pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None:
+                try:
+                    coords_auto_fill_x, coords_auto_fill_y = pyautogui.locateCenterOnScreen(resource_path('ss\\team.png'),region=(team_coords),confidence=0.9)
+                except TypeError:
+                    x=0
+                    y=0
                 time.sleep(0.5)
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-                pyautogui.moveTo(coords_auto_fill)
-                pyautogui.click(coords_auto_fill)
+                if (coords_auto_fill_x!=0) and (coords_auto_fill_y!=0):
+                    pyautogui.moveTo(coords_auto_fill_x,coords_auto_fill_y)
+                    pyautogui.click(coords_auto_fill_x,coords_auto_fill_y)
                 time.sleep(0.5)
                 pyautogui.moveTo(200,100)
         elif pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) is None:                       
-            #print ('Mod = ', mod)
-            #updating time lapsed since start of farming on new instance
             end_time = time.time()
             time_lapsed = end_time - start_time
             end_time_absolute = time.time()
             time_lapsed_absolute = end_time_absolute - start_time_absolute
             
             #starting matchmaking
-            if time_lapsed > timp-600:
+            if time_lapsed > timp:
                 pyautogui.click(200, 100)
-            elif (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp-600):
+            elif (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp):
                 pyautogui.moveTo(230,950)
                 pyautogui.click(230,950)
                 time.sleep(np.random.uniform(0.3,0.8))
@@ -504,12 +519,13 @@ while True:
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
+                        print(UP, end=CLEAR)
                         print("               ____________   ")
                         print ('              | FARM STATS |')
                         print("               ‾‾‾‾‾‾‾‾‾‾‾‾  ")
                         if show_exp==1:
                             print("            ___________________   ")
-                            print ('           |  TOTAL XP GAINED  | -> | ', exp," | XP/HOUR:",round(xp_hour), " | NO EXP:", exp_read))
+                            print ('           |  TOTAL XP GAINED  | -> | ', exp," | XP/HOUR:",round(xp_hour), " | NO EXP:", exp_read)
                             print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
