@@ -62,10 +62,17 @@ This script automates certain actions in the game using Python libraries such as
  ```
 [CONFIG]
 time = 9000 -> time to restart game in seconds
-apexdir = C:\Program Files\EA Games\Apex\\r5apex.exe -> Apex directory and executable
+apexdir = C:\Program Files\EA Games\Apex\\r5apex.exe -> Apex directory and executable (if using steam, delete the path and just write "steam")
 ocr_debug = 0 -> EXP OCR debug mode (make screenshots to see debug why OCR didn't work)
 show_exp = 1 -> -> if you want to show experience gained
 champion = Lifeline -> Legend that you want to select
+
+[KEYBINDS]
+crouch_key = c -> Your crouch key
+heal_key = 4 -> Your healing key
+ability_key = q -> Your ability key
+custom_key1 = -> Custom key if you want (leave blank if you don't want any custom key)
+custom_key2 = -> Custom key if you want (leave blank if you don't want any custom key)
 ```
  For Legend selection use one of the following:
  **"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"**
