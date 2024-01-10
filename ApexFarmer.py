@@ -18,6 +18,8 @@ import pytesseract
 import cv2
 import rainbowtext
 from inputimeout import inputimeout, TimeoutOccurred
+
+
 # instantiate
 
 UP = '\033[1A'
@@ -162,7 +164,10 @@ while True:
         if process_exists('r5apex.exe') is False:
             print(UP, end=CLEAR)
             print ("------------------------------------GAME NOT STARTED, STARTING-------------------------------------")
-            subprocess.call([apexdir])
+            if apexdir=='steam':
+                subprocess.run("start steam://rungameid/1172470", shell=True)
+            else:
+                subprocess.call([apexdir])
         start_time = time.time()
         time_stuck_start= time.time()
         time_stuck_end=0
@@ -177,11 +182,11 @@ while True:
         time_stuck=time_stuck_end-time_stuck_start
         if time_stuck>240:
             mod=4
-        print(UP, end=CLEAR)
-        print ('----------APEX LEGENDS FOUND, PROCEEDING SETTING ACTIVE WINDOW AND PREPARE FOR MATCHMAKING-------------')
         apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
         time.sleep(0.5)
         if (apex_hwnd != 0) and (window_found == 0):
+            print(UP, end=CLEAR)
+            print ('----------APEX LEGENDS FOUND, PROCEEDING SETTING ACTIVE WINDOW AND PREPARE FOR MATCHMAKING-------------')
             time.sleep(5)
             pyautogui.press("alt")
             win32gui.SetForegroundWindow(apex_hwnd)
