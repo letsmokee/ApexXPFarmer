@@ -77,7 +77,7 @@ custom_key2 = -> Custom key if you want (leave blank if you don't want any custo
  For Legend selection use one of the following:
  **"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"**
 
-**NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Seer, Valkyrie, Wraith are working**
+**NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Rampart, Seer, Valkyrie, Wraith are working**
 
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
