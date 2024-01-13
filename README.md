@@ -73,11 +73,30 @@ heal_key = 4 -> Your healing key
 ability_key = q -> Your ability key
 custom_key1 = -> Custom key if you want (leave blank if you don't want any custom key)
 custom_key2 = -> Custom key if you want (leave blank if you don't want any custom key)
+
+[FARM TOGETHER]
+leader = FALSE -> Set this to **TRUE** for party leader account and **SLAVE** for party invitees accounts
+account_1 = None -> Set this to Account 1 name if leader is **TRUE** or with party leader name if **SLAVE** is set
+account_2 = None -> Set this to Account 2 name if leader is **TRUE**
 ```
  For Legend selection use one of the following:
  **"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"**
 
 **NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Rampart, Seer, Valkyrie, Wraith are working**
+
+## FARM TOGETHER (BETA, STILL TESTING)
+For [Farm Together] feature to work read below:
+1. Set **LEADER** to **TRUE** on your computer/virtual machine which you want to be the party leader
+2. Set the **LEADER** to **SLAVE** for 1 or 2 other accounts that you want to farm with
+3. For party leader: In the field Account 1 and/or Account 2 set the name of the account that you want to invite
+4. For party invitees: In the field Account 1 set the name of the party leader account, leave Account 2 on None
+5. Set the same time for restart
+6. Set different Legend from account to account to be selected
+7. Start the bots from same state (in-game or game not launched) at the same time
+
+**NOTES**
+- if you want to turn off the feature, just set **LEADER** to **FALSE**. You can leave the account names.
+- it's using OCR so probably not all names will be recognized. In the next version I can implement custom screenshots for it to work better, but harder to setup.
 
 ## PROBLEMS ENCOUNTERED
 If you encounter any problem, open a cmd window where executable is, type 'ApexFarmer.exe' and run the script as normal. When the error will occur, cmd window will not close itself
