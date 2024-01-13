@@ -37,6 +37,9 @@ if os.path.isfile('config.ini') is not True:
                     'Ability_Key': 'q',
                     'Custom_Key1': '',
                     'Custom_Key2': ''}
+    config['FARM TOGETHER'] = {'LEADER': 'FALSE',
+                    'ACCOUNT_1': 'None',
+                    'ACCOUNT_2': 'None'}
     
 
     with open('config.ini', 'w') as configfile:
@@ -58,6 +61,14 @@ ability_key = str(config.get('KEYBINDS', 'Ability_Key'))
 custom_key1 = str(config.get('KEYBINDS', 'Custom_Key1'))
 custom_key2 = str(config.get('KEYBINDS', 'Custom_Key2'))
 
+leader = str(config.get('FARM TOGETHER', 'LEADER'))
+friend1 = str(config.get('FARM TOGETHER', 'ACCOUNT_1'))
+friend2 = str(config.get('FARM TOGETHER', 'ACCOUNT_2'))
+
+if leader=='FALSE':
+    friend1='None'
+    friend2='None'
+
 #------------------
 if (custom_key1 == '') and (custom_key2 == ''):
     Random = ['w','a','s','d',crouch_key,heal_key,ability_key]
@@ -73,12 +84,12 @@ matchmaking=0
 timer_matchmaking=0
 timer_matchmaking_end=0
 timer_matchmaking_start=0
-time.sleep(2)
 window_found = 0
 exp=0
 exp_new=0
 exp_new1=0
 exp_new2=0
+exp_new4=0
 n = 1
 time_stuck=0
 time_stuck_start=0
@@ -94,6 +105,27 @@ coords_auto_fill_x=0
 coords_auto_fill_y=0
 champ_list=["Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"]
 champ_string=r'legends\\'+champion+'.png'
+friend_region=[[573,265,284,34],(573,365,284,34),(573,465,284,34),(573,565,284,34),(573,665,284,34),(573,765,284,34),(573,865,284,34),(573,965,284,34)]
+invite_region=[[560,265,323,82],(560,355,323,82),(560,455,323,82),(560,555,323,82),(560,655,323,82),(560,755,323,82),(560,855,323,82),(560,955,323,82)]
+k=0
+friend1_invited=0
+friend2_invited=0
+friendlist_window=0
+invite1='0'
+invite2='0'
+invited1='0'
+invited2='0'
+time_slept=0
+f1_coords=0
+f2_coords=0
+friendlist1_coords=0
+friendlist2_coords=0
+leader_text='0'
+apex_detected=0
+friend1_not_invited=1
+friend2_not_invited=1
+invite_accepted=0
+
 
 
 
@@ -152,6 +184,7 @@ if process_exists('r5apex.exe'):
     mod = 2
     start_time = time.time()
     time_stuck_start= time.time()
+    apex_detected=1
 
 else: 
     mod = 1
@@ -248,7 +281,7 @@ while True:
                 #print(UP, end=CLEAR)
                 time.sleep(2)
                 pyautogui.moveTo(200,100)
-                mod = 3
+                mod = 5
     
     #program loop
     while mod == 3:
@@ -391,6 +424,11 @@ while True:
                                         gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
                                         invert2 = 255 - gray2
                                         
+                                        image5=pyautogui.screenshot(region=(924,311,73,35))
+                                        imagenp5 = np.array(image5)
+                                        gray5 = cv2.cvtColor(imagenp5, cv2.COLOR_BGR2GRAY)
+                                        invert5 = 255 - gray5
+                                        
                                         image3=pyautogui.screenshot(region=(coords))
                                         imagenp3 = np.array(image3)
                                         gray3 = cv2.cvtColor(imagenp3, cv2.COLOR_BGR2GRAY)
@@ -406,12 +444,16 @@ while True:
                                         
                                         exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                         exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                        exp_new4 = pytesseract.image_to_string(invert5,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
                                             
                                         if len(exp_new1) == 6 and exp_new1[0] == '4':
                                             exp_new1=int(exp_new1[1:])
                                             #print('EXP1 - 5 CHAR DETECTED')
                                         if len(exp_new2) == 6 and int(exp_new2[0]) == '4':
                                             exp_new2=int(exp_new2[1:])
+                                            #print('EXP2 - 5 CHAR DETECTED')
+                                        if len(exp_new4) == 4 and int(exp_new4[0]) == '4':
+                                            exp_new4=int(exp_new4[1:])
                                             #print('EXP2 - 5 CHAR DETECTED')
                                             
                                         try:
@@ -424,7 +466,12 @@ while True:
                                         except ValueError:
                                             exp_new2 = 0
                                             
-                                        exp_new=exp_new1+exp_new2
+                                        try:
+                                            exp_new4 = int(exp_new4)
+                                        except ValueError:
+                                            exp_new4 = 0
+                                            
+                                        exp_new=exp_new1+exp_new2+exp_new4
                                         exp_new=str(exp_new) 
                                         
                                         if exp_new[0]=='4' and exp_new[1]=='4' and len(exp_new)==4:
@@ -534,14 +581,14 @@ while True:
                             print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
-                            exit()
+                            sys.exit()
                         else:
                             print("            ___________________   ")
                             print ('           |  TOTAL XP GAINED  | -> | N/A')
                             print ('           | TOTAL TIME FARMED | -> | ',datetime.timedelta(seconds=round(time_lapsed_absolute)))
                             print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ")
                             time.sleep(15)
-                            exit()
+                            sys.exit()
                     elif data_input == '2':
                         print(UP, end=CLEAR)
                         print(UP, end=CLEAR)
@@ -572,4 +619,194 @@ while True:
         print(UP, end=CLEAR)
         time.sleep(10)
         mod = 1
+        
+    while mod==5:
+        if leader=='FALSE':
+            mod=3
+            break
+        if leader=='TRUE':
+            pyautogui.click(200,100)
+            pyautogui.click(200,100)
+            if (time_slept==0) and (apex_detected==0):
+                time.sleep(45)
+                time_slept=1
+            time.sleep(3)
+                
+            if pyautogui.locateOnScreen(resource_path('ss\\friendlist.png'),region=(1483,942,461,101),confidence=0.9) != None:
+                try:
+                    friendlist1_coords, friendlist2_coords = pyautogui.locateCenterOnScreen(resource_path('ss\\friendlist.png'),region=(1483,942,461,101),confidence=0.9)
+                except TypeError:
+                    friendlist1_coords=0
+                    friendlist2_coords=0
+                if (friendlist1_coords!=0) and (friendlist2_coords!=0):
+                    pyautogui.moveTo(friendlist1_coords,friendlist2_coords)
+                    pyautogui.click(friendlist1_coords,friendlist2_coords)
+                    time.sleep(2)
+            if pyautogui.locateOnScreen(resource_path('ss\\friends_window.png'),region=(774,32,385,83),confidence=0.9) != None:
+                    friendlist_window=1    
+                    while True:
+                    
+                        if (friend1 != 'None') and (friend1_not_invited==1) and (friendlist_window==1):
+                            time.sleep(1)
+                                    
+                            if friend1 not in invite1:
+                                who_invite=pyautogui.screenshot(region=friend_region[k])
+                                who_invite_np = np.array(who_invite)
+                                gray_who_invite = cv2.cvtColor(who_invite_np, cv2.COLOR_BGR2GRAY)
+                                invert_who_invite = 255 - gray_who_invite
+                                invite1 = pytesseract.image_to_string(invert_who_invite,lang='eng', config='--psm 7')
+                                time.sleep(1)
+                            if (friend1 in invite1) and (friend1_not_invited==1):
+                                try:
+                                    f1_coords, f2_coords = pyautogui.locateCenterOnScreen(resource_path('ss\\invite.png'),region=(invite_region[k]),confidence=0.9)
+                                except TypeError:
+                                    f1_coords=0
+                                    f2_coords=0
+                                if (f1_coords!=0) and (f2_coords!=0):
+                                    pyautogui.moveTo(f1_coords,f2_coords)
+                                    pyautogui.click(f1_coords,f2_coords)
+                                    friend1_not_invited=0
+                                    if friend2 =='None':
+                                        friend2_not_invited=0
+                                    time.sleep(0.5)
+                                    
+                                
+                        if (friend2 != 'None') and (friend2_not_invited==1) and (friendlist_window==1):
+                            time.sleep(1)
+                                  
+                            if friend2 not in invite2:
+                                who_invite=pyautogui.screenshot(region=friend_region[k])
+                                who_invite_np = np.array(who_invite)
+                                gray_who_invite = cv2.cvtColor(who_invite_np, cv2.COLOR_BGR2GRAY)
+                                invert_who_invite = 255 - gray_who_invite
+                                invite2 = pytesseract.image_to_string(invert_who_invite,lang='eng', config='--psm 7')
+                                time.sleep(0.5)
+                            if (friend2 in invite2) and (friend2_not_invited==1):
+                                try:
+                                    f1_coords, f2_coords = pyautogui.locateCenterOnScreen(resource_path('ss\\invite.png'),region=(invite_region[k]),confidence=0.9)
+                                except TypeError:
+                                    f1_coords=0
+                                    f2_coords=0
+                                if (f1_coords!=0) and (f2_coords!=0):
+                                    pyautogui.moveTo(f1_coords,f2_coords)
+                                    pyautogui.click(f1_coords,f2_coords)
+                                    friend2_not_invited=0
+                                    time.sleep(0.5)
+                                   
+                        
+                        if k==6:
+                            k=0
+                        else:
+                            k=k+1
+                
+                        if (friend1_not_invited==0) and (friend2_not_invited==0):
+                            keyboard.press_and_release('esc')
+                            friendlist_window=0
+                            k=0
+                        time.sleep(2)
+                        '''if pyautogui.locateOnScreen(resource_path('ss\\friendlist.png'),region=(1483,942,461,101),confidence=0.9) != None:
+                            who_invited=pyautogui.screenshot(region=(492,163,209,27))
+                            who_invited_np = np.array(who_invited)
+                            gray_who_invited = cv2.cvtColor(who_invited_np, cv2.COLOR_BGR2GRAY)
+                            invert_who_invited = 255 - gray_who_invited
+                            invited1 = pytesseract.image_to_string(invert_who_invited,lang='eng', config='--psm 7')
+                            time.sleep(0.5)            
+                            if (friend1 in invited1) and (friend1 != 'None'):
+                                friend1_invited=1
+                                if friend2=='None':
+                                    friend2_invited==1
+                                    
+                            who_invited=pyautogui.screenshot(region=(1187,147,244,95))
+                            who_invited_np = np.array(who_invited)
+                            gray_who_invited = cv2.cvtColor(who_invited_np, cv2.COLOR_BGR2GRAY)
+                            invert_who_invited = 255 - gray_who_invited
+                            invited2 = pytesseract.image_to_string(invert_who_invited,lang='eng', config='--psm 7')
+                            time.sleep(0.5)
+                            if friend2 in invited2:
+                                friend2_invited=1
+                                
+                        if (friend1_invited==1) and (friend2_invited==1):
+                            mod=3
+                            time.sleep(0.5)
+                        else:
+                            friend1_not_invited=1
+                            friend2_not_invited=1
+                            invite1='0'
+                            invite2='0'
+                            time.sleep(3)'''
+                        if pyautogui.locateOnScreen(resource_path('ss\\slave.png'), region=(398,140,334,71), confidence=0.8) != None:  
+                            if (friend1 != 'None') and (friend2 == 'None'):
+                                mod=3
+                                friend1_not_invited=1
+                                friend2_not_invited=1
+                                invite1='0'
+                                invite2='0'
+                                time.sleep(3)
+                                break
+                            if (friend1 != 'None') and (friend2!='None'):
+                                if pyautogui.locateOnScreen(resource_path('ss\\slave.png'), region=(1187,147,244,95), confidence=0.8) != None:
+                                    mod=3
+                                    break
+                        else:
+                            friend1_not_invited=1
+                            friend2_not_invited=1
+                            invite1='0'
+                            invite2='0'
+                            time.sleep(10)
+                            break
+
+                                   
+        if leader=='SLAVE':
+            time.sleep(5)
+            if (friend1 not in leader_text) and (friend1 != None):
+                leader_photo=pyautogui.screenshot(region=(1572,927,324,20))
+                leader_photo_np = np.array(leader_photo)
+                gray_leader_photo = cv2.cvtColor(leader_photo_np, cv2.COLOR_BGR2GRAY)
+                invert_leader_photo = 255 - gray_leader_photo
+                leader_text = pytesseract.image_to_string(invert_leader_photo,lang='eng', config='--psm 7')
+                time.sleep(0.5)
+            if (friend1 in leader_text) and (friend1 != 'None'):
+                try:
+                    f1_coords, f2_coords = pyautogui.locateCenterOnScreen(resource_path('ss\\accept.png'),region=(1812,970,90,42),confidence=0.9)
+                except TypeError:
+                    f1_coords=0
+                    f2_coords=0
+                if (f1_coords!=0) and (f2_coords!=0):
+                    pyautogui.click(200,100)
+                    pyautogui.moveTo(f1_coords,f2_coords)
+                    pyautogui.click(f1_coords,f2_coords)
+                    time.sleep(0.5)
+
+            '''who_invited=pyautogui.screenshot(region=(492,163,209,27))
+            who_invited_np = np.array(who_invited)
+            gray_who_invited = cv2.cvtColor(who_invited_np, cv2.COLOR_BGR2GRAY)
+            invert_who_invited = 255 - gray_who_invited
+            invited1 = pytesseract.image_to_string(invert_who_invited,lang='eng', config='--psm 7')
+            who_invited=pyautogui.screenshot(region=(1187,147,244,95))
+            who_invited_np = np.array(who_invited)
+            gray_who_invited = cv2.cvtColor(who_invited_np, cv2.COLOR_BGR2GRAY)
+            invert_who_invited = 255 - gray_who_invited
+            invited2 = pytesseract.image_to_string(invert_who_invited,lang='eng', config='--psm 7')
+            time.sleep(0.5)            
+            print(invited1)
+            print(invited2)
+            
+            if (friend1 in invited1) or (friend1 in invite2):
+                invite_accepted=1
+                mod=3
+                break
+            else:
+                leader_text='0'
+                break'''
+            if (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(398,140,334,71), confidence=0.8) != None) or (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(1187,147,244,95), confidence=0.8) != None):
+                mod=3
+                            
+                                    
+            
+                
+                
+                
+            
+        
+        
         
