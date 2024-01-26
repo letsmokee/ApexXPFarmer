@@ -309,14 +309,14 @@ while True:
             #starting matchmaking
             if time_lapsed > timp:
                 pyautogui.click(200, 100)
-            elif (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,538,447,528), confidence=0.8) != None) and (time_lapsed < timp):
+            elif (pyautogui.locateOnScreen(resource_path('ss\\notready.png'), region=(0,856,482,209), confidence=0.5) != None) and (time_lapsed < timp):
                 pyautogui.moveTo(230,950)
                 pyautogui.click(230,950)
                 time.sleep(np.random.uniform(0.3,0.8))
                 pyautogui.moveTo(200,100)
                 time.sleep(0.1)
             
-            if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (matchmaking == 0):
+            if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,856,482,209), confidence=0.5) != None) and (matchmaking == 0):
                 matchmaking=1
                 timer_matchmaking_start=time.time()
             while matchmaking==1:
@@ -324,7 +324,7 @@ while True:
                 timer_matchmaking_end=time.time()
                 time.sleep(0.05)
                 timer_matchmaking=timer_matchmaking_end-timer_matchmaking_start
-                if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None) and (timer_matchmaking>240):
+                if (pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,856,482,209), confidence=0.5) != None) and (timer_matchmaking>240):
                     pyautogui.moveTo(230,950)
                     pyautogui.click(230,950)
                     time.sleep(np.random.uniform(0.3,0.8))
@@ -333,10 +333,10 @@ while True:
                     matchmaking=0
                     timer_matchmaking=0
                     break
-                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) != None:
+                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,856,482,209), confidence=0.5) != None:
                     time.sleep(1)
 
-                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,538,447,528), confidence=0.9) is None:
+                elif pyautogui.locateOnScreen(resource_path('ss\\matchmaking.png'), region=(0,856,482,209), confidence=0.5) is None:
                     matchmaking=0
                     timer_matchmaking=0
                     break
