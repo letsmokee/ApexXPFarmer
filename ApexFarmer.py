@@ -230,7 +230,7 @@ while True:
             pyautogui.moveTo(200,100)
             window_found = 1
             
-        if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
+        if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(255, 885, 172, 81), grayscale=True, confidence=0.5) is not None:
             print(UP, end=CLEAR)
             print("------------------------------DETECTED IN MATCH, MOVING TO FARMING MODE-----------------------------")
             time_stuck_start= 0
@@ -363,7 +363,7 @@ while True:
                 keyboard.press_and_release('space')
                 time.sleep(np.random.uniform(0.4,0.8))
             
-            if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(87, 755, 379, 304), grayscale=True, confidence=0.5) is not None:
+            if pyautogui.locateOnScreen(resource_path('ss\\InGame.png'), region=(255, 885, 172, 81), grayscale=True, confidence=0.5) is not None:
                 #print("-------------In game waiting--------------")
                 keyboard.press_and_release(Random)
                 time.sleep(0.5)
