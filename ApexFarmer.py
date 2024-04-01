@@ -31,6 +31,7 @@ if os.path.isfile('config.ini') is not True:
                      'ApexDir': r'C:\Program Files\EA Games\Apex\\r5apex.exe',
                      'OCR_debug': '0',
                      'show_exp': '1',
+                     'Gamemode': 'Trios',
                      'Champion': 'Lifeline'}
     config['KEYBINDS'] = {'Crouch_Key': 'c',
                     'Heal_Key': '4',
@@ -54,6 +55,7 @@ apexdir = str(config.get('CONFIG', 'ApexDir'))
 OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
 champion = str(config.get('CONFIG', 'Champion'))
+gamemode = str(config.get('CONFIG', 'Gamemode'))
 
 crouch_key = str(config.get('KEYBINDS', 'Crouch_Key'))
 heal_key = str(config.get('KEYBINDS', 'Heal_Key'))
@@ -153,8 +155,10 @@ print("CONFIG: -> | Time for restart: | >>>", timp, "sec")
 print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
 print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
 print("CONFIG: -> |      Champion     | >>>", champion)
+print("CONFIG: -> |      Gamemode     | >>>", gamemode)
 print("CONFIG: -> |    DEBUG MODE:    | >>>", OCR_debug)
 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                      ")
+print('')
 print('')
 print('')
 print('')
@@ -269,7 +273,7 @@ while True:
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-            while gamemode_set==1:
+            while (gamemode_set==1) and (gamemode=='Duos'):
 
                 try:
                         coords_gamemode_x, coords_gamemode_y = pyautogui.locateCenterOnScreen(resource_path('ss\\trios.png'),region=(gamemode_coords),confidence=0.9)
@@ -294,7 +298,18 @@ while True:
                         pyautogui.moveTo(200,100)
                         gamemode_set=0
 
-        if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None) and (pyautogui.locateOnScreen(resource_path('ss\\duos.png'), region=(gamemode_coords), grayscale=True, confidence=0.9) != None):
+        if (pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None) and (pyautogui.locateOnScreen(resource_path('ss\\duos.png'), region=(gamemode_coords), grayscale=True, confidence=0.7) != None):
+                try:
+                    coords_auto_fill_x, coords_auto_fill_y = pyautogui.locateCenterOnScreen(resource_path('ss\\team.png'),region=(team_coords),confidence=0.9)
+                except TypeError:
+                    coords_auto_fill_x=0
+                    coords_auto_fill_y=0
+                if (coords_auto_fill_x!=0) and (coords_auto_fill_y!=0):
+                    pyautogui.moveTo(coords_auto_fill_x,coords_auto_fill_y)
+                    pyautogui.click(coords_auto_fill_x,coords_auto_fill_y)
+                    time.sleep(2)
+                    pyautogui.moveTo(200,100)
+        elif (pyautogui.locateOnScreen(resource_path('ss\\team.png'), region=(team_coords), grayscale=True, confidence=0.9) != None) and (pyautogui.locateOnScreen(resource_path('ss\\trios.png'), region=(gamemode_coords), grayscale=True, confidence=0.7) != None):
                 try:
                     coords_auto_fill_x, coords_auto_fill_y = pyautogui.locateCenterOnScreen(resource_path('ss\\team.png'),region=(team_coords),confidence=0.9)
                 except TypeError:
@@ -318,7 +333,7 @@ while True:
     
     #program loop
     while mod == 3:
-        if pyautogui.locateOnScreen(resource_path('ss\\trios.png'), region=(gamemode_coords), grayscale=True, confidence=0.9) != None:
+        if pyautogui.locateOnScreen(resource_path('ss\\trios.png'), region=(gamemode_coords), grayscale=True, confidence=0.7) != None:
             gamemode_set=1
             apex_hwnd = win32gui.FindWindow(None,'Apex Legends')
             if apex_hwnd != 0:
@@ -326,7 +341,7 @@ while True:
                 pyautogui.press("alt")
                 win32gui.SetForegroundWindow(apex_hwnd)
                 win32gui.SetActiveWindow(apex_hwnd)
-            while gamemode_set==1:
+            while (gamemode_set==1) and (gamemode=='Duos'):
 
                 try:
                         coords_gamemode_x, coords_gamemode_y = pyautogui.locateCenterOnScreen(resource_path('ss\\trios.png'),region=(gamemode_coords),confidence=0.9)
@@ -867,7 +882,3 @@ while True:
             if (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(398,140,334,71), confidence=0.8) != None) or (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(1187,147,244,95), confidence=0.8) != None):
                 mod=3
                             
-                                    
-            
-                
-        
