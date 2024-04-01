@@ -82,7 +82,7 @@ account_2 = None -> Set this to Account 2 name if leader is **TRUE**
  For Legend selection use one of the following:
  **"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore","Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba","Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","MadMaggie","Newcastle","Vantage","Catalyst","Ballistic","Conduit"**
 
-**NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Rampart, Seer, Valkyrie, Wraith are working**
+**NOTE: For now, only Ashe, Vangalore, Bloodhound, Catalyst, Conduit, Fuse, Gibraltar, Horizon, Lifeline, Loba, Newcastle, Octane, Pathfinder, Revenant, Rampart, Seer, Valkyrie, Wraith, MadMaggie, Caustic, Mirage, Crypto  are working**
 
 ## FARM TOGETHER (BETA, STILL TESTING)
 For [Farm Together] feature to work read below:
