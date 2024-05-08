@@ -18,6 +18,7 @@ import pytesseract
 import cv2
 import rainbowtext
 from inputimeout import inputimeout, TimeoutOccurred
+from pynput.keyboard import Key, Controller
 
 
 # instantiate
@@ -32,7 +33,8 @@ if os.path.isfile('config.ini') is not True:
                      'OCR_debug': '0',
                      'show_exp': '1',
                      'Gamemode': 'Trios',
-                     'Champion': 'Lifeline'}
+                     'Champion': 'Lifeline',
+                     'Requeue': '0'}
     config['KEYBINDS'] = {'Crouch_Key': 'c',
                     'Heal_Key': '4',
                     'Ability_Key': 'q',
@@ -56,6 +58,7 @@ OCR_debug = int(config.get('CONFIG', 'OCR_debug'))
 show_exp = int(config.get('CONFIG', 'show_exp'))
 champion = str(config.get('CONFIG', 'Champion'))
 gamemode = str(config.get('CONFIG', 'Gamemode'))
+requeue = int(config.get('CONFIG', 'Requeue'))
 
 crouch_key = str(config.get('KEYBINDS', 'Crouch_Key'))
 heal_key = str(config.get('KEYBINDS', 'Heal_Key'))
@@ -88,6 +91,11 @@ timer_matchmaking=0
 timer_matchmaking_end=0
 timer_matchmaking_start=0
 window_found = 0
+if requeue==1 and show_exp==1:
+    show_exp=0
+    text="due to requeue is 1"
+else:
+    text=""
 exp=0
 exp_new=0
 exp_new1=0
@@ -134,6 +142,8 @@ friend1_not_invited=1
 friend2_not_invited=1
 invite_accepted=0
 
+keyboardhold = Controller()
+
 
 
 
@@ -153,10 +163,10 @@ print("")
 print("            ___________________                      ")
 print("CONFIG: -> | Time for restart: | >>>", timp, "sec")
 print("CONFIG: -> |  Apex Directory:  | >>>", apexdir)
-print("CONFIG: -> |  Show earned XP:  | >>>", show_exp)
+print("CONFIG: -> |  Show earned XP:  | >>>", show_exp, text)
 print("CONFIG: -> |      Champion     | >>>", champion)
 print("CONFIG: -> |      Gamemode     | >>>", gamemode)
-print("CONFIG: -> |    DEBUG MODE:    | >>>", OCR_debug)
+print("CONFIG: -> |      Requeue      | >>>", requeue)
 print("            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                      ")
 print('')
 print('')
@@ -217,6 +227,7 @@ while True:
         time.sleep(10)
         window_found = 0
         mod = 2
+        time.sleep(15)
 
     #checkking if game was opened and closing news or other in game windows
     while mod == 2:
@@ -232,9 +243,10 @@ while True:
             print ('----------APEX LEGENDS FOUND, PROCEEDING SETTING ACTIVE WINDOW AND PREPARE FOR MATCHMAKING-------------')
             time.sleep(5)
             pyautogui.press("alt")
-            win32gui.SetForegroundWindow(apex_hwnd)
-            win32gui.SetActiveWindow(apex_hwnd)
             win32gui.ShowWindow(apex_hwnd, win32con.SW_RESTORE)
+            win32gui.SetForegroundWindow(apex_hwnd)
+            #win32gui.SetActiveWindow(apex_hwnd)
+
             end_time = time.time()
             time_lapsed = end_time - start_time
             pyautogui.moveTo(200,100)
@@ -271,8 +283,9 @@ while True:
             if apex_hwnd != 0:
                 time.sleep(1)
                 pyautogui.press("alt")
+                win32gui.ShowWindow(apex_hwnd, win32con.SW_RESTORE)
                 win32gui.SetForegroundWindow(apex_hwnd)
-                win32gui.SetActiveWindow(apex_hwnd)
+                #win32gui.SetActiveWindow(apex_hwnd)
             while (gamemode_set==1) and (gamemode=='Duos'):
 
                 try:
@@ -339,8 +352,9 @@ while True:
             if apex_hwnd != 0:
                 time.sleep(1)
                 pyautogui.press("alt")
+                win32gui.ShowWindow(apex_hwnd, win32con.SW_RESTORE)
                 win32gui.SetForegroundWindow(apex_hwnd)
-                win32gui.SetActiveWindow(apex_hwnd)
+                #win32gui.SetActiveWindow(apex_hwnd)
             while (gamemode_set==1) and (gamemode=='Duos'):
 
                 try:
@@ -374,8 +388,9 @@ while True:
                     coords_auto_fill_y=0
                 time.sleep(0.5)
                 pyautogui.press("alt")
+                win32gui.ShowWindow(apex_hwnd, win32con.SW_RESTORE)
                 win32gui.SetForegroundWindow(apex_hwnd)
-                win32gui.SetActiveWindow(apex_hwnd)
+                #win32gui.SetActiveWindow(apex_hwnd)
                 if (coords_auto_fill_x!=0) and (coords_auto_fill_y!=0):
                     pyautogui.moveTo(coords_auto_fill_x,coords_auto_fill_y)
                     pyautogui.click(coords_auto_fill_x,coords_auto_fill_y)
@@ -421,12 +436,12 @@ while True:
                     matchmaking=0
                     timer_matchmaking=0
                     break
-            if pyautogui.locateOnScreen(resource_path('ss\\champselect.png'), region=(494,794,253,42), confidence=0.9) != None:
+            if pyautogui.locateOnScreen(resource_path('ss\\champselect.png'), region=(1640,644,98,81),grayscale=True, confidence=0.7) != None:
                 if champion not in champ_list:
                     pass
                 else:
                     try:
-                        x, y = pyautogui.locateCenterOnScreen(resource_path(champ_string),region=(246,695,1357,294),confidence=0.9)
+                        x, y = pyautogui.locateCenterOnScreen(resource_path(champ_string),region=(246,695,1357,294),confidence=0.8)
                     except TypeError:
                         x=0
                         y=0
@@ -454,136 +469,139 @@ while True:
                 else:
                     time.sleep(np.random.uniform(0.6, 1.5)) 
             else: ingame = 0
-        
-            if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) or pyautogui.locateOnScreen(resource_path('ss\\2ndplace.png'), region=(441,19,1017,304), confidence=0.6) != None:
-                #print("dead")
-                time.sleep(np.random.uniform(0.3,0.5))
-                keyboard.press_and_release('space')
-                time.sleep(np.random.uniform(0.3,0.7))
-                while True:
-                    if pyautogui.locateOnScreen(resource_path('ss\\yes.png'), region=(506,550,912,304), grayscale=True, confidence=0.6) != None:
-                        #print('yes')
-                        pyautogui.click(850, 713)
-                        time.sleep(np.random.uniform(0.4,0.8))
-                        pyautogui.click(850, 713)
-                        time.sleep(0.5)
-                    if pyautogui.locateOnScreen(resource_path('ss\\battlepass.png'), region=(51,987,122,41), grayscale=True, confidence=0.8) != None:
-                            #print('space2')
+            if requeue!=1:
+                if pyautogui.locateOnScreen(resource_path('ss\\dead.png'), region=(441,19,1017,304), grayscale=True, confidence=0.6) or pyautogui.locateOnScreen(resource_path('ss\\2ndplace.png'), region=(441,19,1017,304), confidence=0.6) != None:
+                    #print("dead")
+                    time.sleep(np.random.uniform(0.3,0.5))
+                    keyboard.press_and_release('space')
+                    time.sleep(np.random.uniform(0.3,0.7))
+                    while True:
+                        if pyautogui.locateOnScreen(resource_path('ss\\hold_space.png'), region=(1251,599,585,71), grayscale=True, confidence=0.6) != None:
+                            #print('yes')
+                            keyboardhold.press(Key.space)
+                            time.sleep(2)
+                            keyboardhold.release(Key.space)
+
+                        if pyautogui.locateOnScreen(resource_path('ss\\battlepass.png'), region=(51,987,122,41), grayscale=True, confidence=0.8) != None:
+                                #print('space2')
+                                keyboard.press_and_release('space')
+                                time.sleep(0.5)
+                        if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
+                            #print('matchsummary')
                             keyboard.press_and_release('space')
                             time.sleep(0.5)
-                    if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) != None:
-                        #print('matchsummary')
-                        keyboard.press_and_release('space')
-                        time.sleep(0.5)
-                        if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) is None:
-                            while True:
-                                if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
-                                    #print('exp screen')
-                                    time.sleep(5)
-                                    if show_exp==1:
-                                        image4=pyautogui.screenshot(region=(840,543,131,24))
-                                        imagenp4 = np.array(image4)
-                                        gray4 = cv2.cvtColor(imagenp4, cv2.COLOR_BGR2GRAY)
-                                        invert4 = 255 - gray4
-                                        boost_text=pytesseract.image_to_string(invert4,lang='eng', config='--psm 12 -c tessedit_char_whitelist=123456789BostAplied')
-                                        res = any(ele in boost_text for ele in boost)
-                                        if res is True:
-                                            #print("coords boost")
-                                            coords=coords_boost
-                                        else:
-                                            #print("coords no boost")
-                                            coords=coords_no_boost
+                            if pyautogui.locateOnScreen(resource_path('ss\\matchsummary.png'), region=(564,18,814,115), grayscale=True, confidence=0.8) is None:
+                                while True:
+                                    if pyautogui.locateOnScreen(resource_path('ss\\expscreen.png'), region=(657,0,603,97), confidence=0.8) != None:
+                                        #print('exp screen')
+                                        time.sleep(5)
+                                        if show_exp==1:
+                                            image4=pyautogui.screenshot(region=(840,543,131,24))
+                                            imagenp4 = np.array(image4)
+                                            gray4 = cv2.cvtColor(imagenp4, cv2.COLOR_BGR2GRAY)
+                                            invert4 = 255 - gray4
+                                            boost_text=pytesseract.image_to_string(invert4,lang='eng', config='--psm 12 -c tessedit_char_whitelist=123456789BostAplied')
+                                            res = any(ele in boost_text for ele in boost)
+                                            if res is True:
+                                                #print("coords boost")
+                                                coords=coords_boost
+                                            else:
+                                                #print("coords no boost")
+                                                coords=coords_no_boost
+                                                
+                                                
+                                            image1=pyautogui.screenshot(region=(457,231,61,38))
+                                            imagenp1 = np.array(image1)
+                                            gray1 = cv2.cvtColor(imagenp1, cv2.COLOR_BGR2GRAY)
+                                            invert1 = 255 - gray1
                                             
+                                            image2=pyautogui.screenshot(region=(457,271,61,38))
+                                            imagenp2 = np.array(image2)
+                                            gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
+                                            invert2 = 255 - gray2
                                             
-                                        image1=pyautogui.screenshot(region=(457,231,61,38))
-                                        imagenp1 = np.array(image1)
-                                        gray1 = cv2.cvtColor(imagenp1, cv2.COLOR_BGR2GRAY)
-                                        invert1 = 255 - gray1
-                                        
-                                        image2=pyautogui.screenshot(region=(457,271,61,38))
-                                        imagenp2 = np.array(image2)
-                                        gray2 = cv2.cvtColor(imagenp2, cv2.COLOR_BGR2GRAY)
-                                        invert2 = 255 - gray2
-                                        
-                                        image5=pyautogui.screenshot(region=(924,311,73,35))
-                                        imagenp5 = np.array(image5)
-                                        gray5 = cv2.cvtColor(imagenp5, cv2.COLOR_BGR2GRAY)
-                                        invert5 = 255 - gray5
-                                        
-                                        image3=pyautogui.screenshot(region=(coords))
-                                        imagenp3 = np.array(image3)
-                                        gray3 = cv2.cvtColor(imagenp3, cv2.COLOR_BGR2GRAY)
-                                        invert3 = 255 - gray3
-                                        
-                                        if OCR_debug == 1:
-                                            pyautogui.screenshot("saved_without_exp"+str(n)+".png")
-                                        try:
-                                            exp_new3 = int(pytesseract.image_to_string(invert3,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789'))
-                                        except ValueError:
-                                            exp_new3 = 0
-                                            pass    
-                                        
-                                        exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
-                                        exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
-                                        exp_new4 = pytesseract.image_to_string(invert5,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                            image5=pyautogui.screenshot(region=(924,311,73,35))
+                                            imagenp5 = np.array(image5)
+                                            gray5 = cv2.cvtColor(imagenp5, cv2.COLOR_BGR2GRAY)
+                                            invert5 = 255 - gray5
                                             
-                                        if len(exp_new1) == 6 and exp_new1[0] == '4':
-                                            exp_new1=int(exp_new1[1:])
-                                            #print('EXP1 - 5 CHAR DETECTED')
-                                        if len(exp_new2) == 6 and int(exp_new2[0]) == '4':
-                                            exp_new2=int(exp_new2[1:])
-                                            #print('EXP2 - 5 CHAR DETECTED')
-                                        if len(exp_new4) == 4 and int(exp_new4[0]) == '4':
-                                            exp_new4=int(exp_new4[1:])
-                                            #print('EXP2 - 5 CHAR DETECTED')
+                                            image3=pyautogui.screenshot(region=(coords))
+                                            imagenp3 = np.array(image3)
+                                            gray3 = cv2.cvtColor(imagenp3, cv2.COLOR_BGR2GRAY)
+                                            invert3 = 255 - gray3
                                             
-                                        try:
-                                            exp_new1 = int(exp_new1)
-                                        except ValueError:
-                                            exp_new1 = 0
-                                        
-                                        try:
-                                            exp_new2 = int(exp_new2)
-                                        except ValueError:
-                                            exp_new2 = 0
+                                            if OCR_debug == 1:
+                                                pyautogui.screenshot("saved_without_exp"+str(n)+".png")
+                                            try:
+                                                exp_new3 = int(pytesseract.image_to_string(invert3,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789'))
+                                            except ValueError:
+                                                exp_new3 = 0
+                                                pass    
                                             
-                                        try:
-                                            exp_new4 = int(exp_new4)
-                                        except ValueError:
-                                            exp_new4 = 0
+                                            exp_new1 = pytesseract.image_to_string(invert1,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                            exp_new2 = pytesseract.image_to_string(invert2,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                            exp_new4 = pytesseract.image_to_string(invert5,lang='eng', config='--psm 6 -c tessedit_char_whitelist=0123456789')
+                                                
+                                            if len(exp_new1) == 6 and exp_new1[0] == '4':
+                                                exp_new1=int(exp_new1[1:])
+                                                #print('EXP1 - 5 CHAR DETECTED')
+                                            if len(exp_new2) == 6 and int(exp_new2[0]) == '4':
+                                                exp_new2=int(exp_new2[1:])
+                                                #print('EXP2 - 5 CHAR DETECTED')
+                                            if len(exp_new4) == 4 and int(exp_new4[0]) == '4':
+                                                exp_new4=int(exp_new4[1:])
+                                                #print('EXP2 - 5 CHAR DETECTED')
+                                                
+                                            try:
+                                                exp_new1 = int(exp_new1)
+                                            except ValueError:
+                                                exp_new1 = 0
                                             
-                                        exp_new=exp_new1+exp_new2+exp_new4
-                                        exp_new=str(exp_new) 
-                                        
-                                        if exp_new[0]=='4' and exp_new[1]=='4' and len(exp_new)==4:
-                                            exp_new=exp_new[1:]
-                                        
-                                        exp_new = int(exp_new)
-                                        
-                                        if exp_new == exp_new3:
-                                            pass
-                                        if exp_new > 4000:
-                                            exp_new=exp_new3
-                                        elif len(str(exp_new))==3 and len(str(exp_new3))==4:
-                                            exp_new=exp_new3
-                                        
-                                        if exp_new==0:
-                                            exp_read=exp_read+1
-                                        
-                                        exp=exp+exp_new
-                                        if OCR_debug == 1:
-                                            pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
-                                            file = open("data.txt", "a")
-                                            file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp" + '--- exp_new=' +str(exp_new1) + " exp" + '--- exp_new=' +str(exp_new2) + " exp\n")
-                                            file.close()
-                                            n=n+1
-                                    time.sleep(np.random.uniform(0.4,0.8))
-                                    #print('space dupa expscreen')
-                                    keyboard.press_and_release('space')
-                                    time.sleep(np.random.uniform(0.4,0.7))
-                                    break
-                            break
-                    
+                                            try:
+                                                exp_new2 = int(exp_new2)
+                                            except ValueError:
+                                                exp_new2 = 0
+                                                
+                                            try:
+                                                exp_new4 = int(exp_new4)
+                                            except ValueError:
+                                                exp_new4 = 0
+                                                
+                                            exp_new=exp_new1+exp_new2+exp_new4
+                                            exp_new=str(exp_new) 
+                                            
+                                            if exp_new[0]=='4' and exp_new[1]=='4' and len(exp_new)==4:
+                                                exp_new=exp_new[1:]
+                                            
+                                            exp_new = int(exp_new)
+                                            
+                                            if exp_new == exp_new3:
+                                                pass
+                                            if exp_new > 4000:
+                                                exp_new=exp_new3
+                                            elif len(str(exp_new))==3 and len(str(exp_new3))==4:
+                                                exp_new=exp_new3
+                                            
+                                            if exp_new==0:
+                                                exp_read=exp_read+1
+                                            
+                                            exp=exp+exp_new
+                                            if OCR_debug == 1:
+                                                pyautogui.screenshot("saved_exp" +str(exp_new)+".png")
+                                                file = open("data.txt", "a")
+                                                file.write("n = " + str(n) + ' - ' + str(exp_new) + " exp" + '--- exp_new=' +str(exp_new1) + " exp" + '--- exp_new=' +str(exp_new2) + " exp\n")
+                                                file.close()
+                                                n=n+1
+                                        time.sleep(np.random.uniform(0.4,0.8))
+                                        #print('space dupa expscreen')
+                                        keyboard.press_and_release('space')
+                                        time.sleep(np.random.uniform(0.4,0.7))
+                                        break
+                                break
+            if pyautogui.locateOnScreen(resource_path('ss\\requeue2.png'), region=(1418,0,500,103), grayscale=False, confidence=0.8) != None:    
+                keyboard.press_and_release('1')
+                time.sleep(np.random.uniform(0.4,0.8))
+                
             if pyautogui.locateOnScreen(resource_path('ss\\news.png'), grayscale=True, confidence=0.6) != None:
                 #print("news")
                 keyboard.press_and_release('esc')
@@ -882,3 +900,9 @@ while True:
             if (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(398,140,334,71), confidence=0.8) != None) or (pyautogui.locateOnScreen(resource_path('ss\\leader.png'), region=(1187,147,244,95), confidence=0.8) != None):
                 mod=3
                             
+                                    
+            
+                
+                
+                
+            
