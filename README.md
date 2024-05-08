@@ -64,8 +64,9 @@ This script automates certain actions in the game using Python libraries such as
 time = 9000 -> time to restart game in seconds
 apexdir = C:\Program Files\EA Games\Apex\\r5apex.exe -> Apex directory and executable (if using steam, delete the path and just write "steam")
 ocr_debug = 0 -> EXP OCR debug mode (make screenshots to see debug why OCR didn't work)
-show_exp = 1 -> -> if you want to show experience gained
+show_exp = 1 -> -> if you want to show experience gained, doesn't work with requeue 1 and will be set to 0 automatically if requeue is 1
 champion = Lifeline -> Legend that you want to select
+requeue = 1 -> 1 to fast requeue after death, 0 for normal requeue 
 
 [KEYBINDS]
 crouch_key = c -> Your crouch key
